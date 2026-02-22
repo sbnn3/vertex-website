@@ -9,139 +9,431 @@
 </head>
 
 <body>
+  <header class="nav" id="top">
+    <div class="container nav-inner">
+      <a href="#top" class="brand" aria-label="Vertex home">
+        <img src="./logo.png" alt="Vertex Construction Automation" class="logo">
+      </a>
 
-<header class="nav">
-  <div class="container nav-inner">
-    <a href="#top" class="brand">
-      <img src="./logo.png" alt="Vertex Logo" class="logo">
-    </a>
+      <button class="menu-btn" aria-label="Open menu" aria-expanded="false" id="menuBtn">
+        <span></span><span></span><span></span>
+      </button>
 
-    <nav class="links">
+      <nav class="links" id="navLinks" aria-label="Primary navigation">
+        <a href="#services">Services</a>
+        <a href="#results">Results</a>
+        <a href="#how">How it works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="btn small">Book a Call</a>
+      </nav>
+    </div>
+
+    <div class="mobile-menu" id="mobileMenu" aria-label="Mobile navigation">
       <a href="#services">Services</a>
+      <a href="#results">Results</a>
       <a href="#how">How it works</a>
       <a href="#pricing">Pricing</a>
-      <a href="#contact" class="btn small">Book a Call</a>
-    </nav>
-  </div>
-</header>
-
-<main id="top">
-
-<section class="hero">
-  <div class="container grid2">
-    <div>
-      <span class="pill">For Construction Companies in Ireland</span>
-      <h1>Faster Replies. More Quotes Won.</h1>
-      <p class="lead">
-        Vertex helps construction businesses automate lead capture,
-        instant replies, follow-ups and quote drafts —
-        so you close more jobs without hiring extra admin.
-      </p>
-
-      <div class="cta-row">
-        <a href="#contact" class="btn">Book 15-min Call</a>
-        <a href="#services" class="btn ghost">See Services</a>
-      </div>
+      <a href="#faq">FAQ</a>
+      <a href="#contact" class="btn">Book a Call</a>
     </div>
+  </header>
 
-    <div class="card highlight">
-      <h3>Construction Revenue System</h3>
-      <ul>
-        <li>Instant quote response</li>
-        <li>Automated follow-ups</li>
-        <li>Quote draft generator</li>
-        <li>Simple CRM dashboard</li>
-      </ul>
-      <p class="note">
-        Free 15-minute audit call included.
-      </p>
-    </div>
-  </div>
-</section>
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container grid2">
+        <div class="hero-left">
+          <span class="pill">For construction companies in Ireland</span>
+          <h1>Reply to quote requests in minutes — not days.</h1>
+          <p class="lead">
+            Vertex builds simple automation systems for construction businesses:
+            instant enquiry replies, follow-ups, quote drafts, and pipeline tracking —
+            so you win more jobs with less admin.
+          </p>
 
-<section id="services" class="section">
-  <div class="container">
-    <h2>Services</h2>
-    <div class="cards">
+          <div class="cta-row">
+            <a href="#contact" class="btn">Book a 15-min call</a>
+            <a href="#services" class="btn ghost">See services</a>
+          </div>
 
-      <div class="card">
-        <h3>Lead Response Automation</h3>
-        <p>Reply to enquiries within minutes, not days.</p>
+          <div class="stats">
+            <div class="stat"><b>2–5 min</b><span>typical reply time</span></div>
+            <div class="stat"><b>+20–40%</b><span>higher conversion (typical)</span></div>
+            <div class="stat"><b>5–10 hrs/wk</b><span>admin time saved</span></div>
+          </div>
+
+          <p class="note">
+            Built for small & mid-sized contractors (Dublin and nationwide). Remote setup available.
+          </p>
+        </div>
+
+        <div class="hero-right">
+          <div class="card highlight">
+            <div class="badge">Construction Revenue System</div>
+            <h3>What you get</h3>
+            <ul class="check">
+              <li>Lead capture from website + email</li>
+              <li>Instant replies + qualification questions</li>
+              <li>Follow-ups on day 3 / 7 / 14</li>
+              <li>Quote draft generator (PDF template)</li>
+              <li>Simple CRM + pipeline dashboard</li>
+            </ul>
+            <div class="mini">
+              <p><b>Free first step:</b> quick audit call + 3 automation ideas tailored to your workflow.</p>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Follow-Up Automation</h3>
-        <p>Never lose a job because nobody followed up.</p>
+    <!-- SERVICES -->
+    <section id="services" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>Services</h2>
+          <p class="sub">Start with one piece, or combine into a full system.</p>
+        </div>
+
+        <div class="cards three">
+          <article class="card">
+            <h3>Lead Response Automation</h3>
+            <p>Instant replies to enquiries + structured capture of job details.</p>
+            <ul>
+              <li>Website form & email intake</li>
+              <li>Smart reply templates</li>
+              <li>Leads saved automatically</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Follow-Up Automation</h3>
+            <p>Consistent follow-up that increases wins without chasing manually.</p>
+            <ul>
+              <li>3/7/14-day sequences</li>
+              <li>Reminders & re-engagement</li>
+              <li>Stops leads going cold</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Quote Draft Generator</h3>
+            <p>Create professional quote drafts and PDFs fast, consistently.</p>
+            <ul>
+              <li>Quote template + branding</li>
+              <li>Scope + exclusions included</li>
+              <li>PDF output in one click</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>CRM & Pipeline Dashboard</h3>
+            <p>Know exactly what’s in your pipeline and what’s closing.</p>
+            <ul>
+              <li>Stages: New → Won/Lost</li>
+              <li>Lead source tracking</li>
+              <li>Weekly KPI snapshot</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Document Automation</h3>
+            <p>Generate job sheets, updates, handover notes and simple contracts.</p>
+            <ul>
+              <li>Reusable document templates</li>
+              <li>Standardised output</li>
+              <li>Less admin, fewer mistakes</li>
+            </ul>
+          </article>
+
+          <article class="card">
+            <h3>Automation Audit</h3>
+            <p>Map your workflow and receive a 30-day rollout plan with ROI estimates.</p>
+            <ul>
+              <li>Process mapping</li>
+              <li>Quick-win roadmap</li>
+              <li>Implementation plan</li>
+            </ul>
+          </article>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Quote Draft Generator</h3>
-        <p>Create consistent professional quotes in seconds.</p>
+    <!-- RESULTS -->
+    <section id="results" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>What changes after implementation</h2>
+          <p class="sub">The goal is simple: faster replies → more quotes → more jobs won.</p>
+        </div>
+
+        <div class="cards two">
+          <div class="card">
+            <h3>Before</h3>
+            <ul class="check subtle">
+              <li>Enquiries scattered across email, website, Facebook</li>
+              <li>Slow reply time (hours/days)</li>
+              <li>Missed follow-ups</li>
+              <li>No clear pipeline view</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>After</h3>
+            <ul class="check">
+              <li>Every lead captured into one pipeline</li>
+              <li>Auto-reply in minutes (with key questions)</li>
+              <li>Follow-up sequence running automatically</li>
+              <li>Quotes standardised & faster to send</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric"><b>Response time</b><span>from days → minutes</span></div>
+          <div class="metric"><b>Follow-up consistency</b><span>from random → automatic</span></div>
+          <div class="metric"><b>Visibility</b><span>from “guessing” → pipeline dashboard</span></div>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>CRM & Pipeline Tracking</h3>
-        <p>See exactly what’s in your sales pipeline.</p>
+    <!-- HOW -->
+    <section id="how" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>How it works</h2>
+          <p class="sub">Clear process. No disruption to your day-to-day work.</p>
+        </div>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <h3>Audit</h3>
+            <p>15–30 min call to understand your lead flow and quoting process.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <h3>Build</h3>
+            <p>Set up automations, templates, and a simple CRM dashboard.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <h3>Test</h3>
+            <p>Run with real leads, refine messages & rules, confirm quality.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">4</div>
+            <h3>Launch</h3>
+            <p>Go live + short training + optional monitoring/support.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <div>
+            <h3>Typical timeline</h3>
+            <p class="sub">Most systems are live in 7–14 days depending on complexity.</p>
+          </div>
+          <a class="btn" href="#contact">Book the audit call</a>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
+    <!-- PRICING -->
+    <section id="pricing" class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <h2>Pricing</h2>
+          <p class="sub">Simple starting points. Final price depends on workflow complexity.</p>
+        </div>
 
-<section id="how" class="section alt">
-  <div class="container">
-    <h2>How It Works</h2>
-    <div class="steps">
-      <div class="step"><b>1.</b> Audit your workflow</div>
-      <div class="step"><b>2.</b> Build automations</div>
-      <div class="step"><b>3.</b> Test & refine</div>
-      <div class="step"><b>4.</b> Launch & support</div>
-    </div>
-  </div>
-</section>
+        <div class="pricing">
+          <div class="card price">
+            <h3>Starter</h3>
+            <p class="tag">Best for small teams</p>
+            <div class="money">€1,200–€2,000</div>
+            <ul class="check">
+              <li>Lead capture + instant reply</li>
+              <li>Basic CRM / pipeline</li>
+              <li>1 quote template</li>
+            </ul>
+          </div>
 
-<section id="pricing" class="section">
-  <div class="container">
-    <h2>Pricing</h2>
-    <div class="cards">
+          <div class="card price featured">
+            <h3>System</h3>
+            <p class="tag">Most popular</p>
+            <div class="money">€2,000–€4,000</div>
+            <ul class="check">
+              <li>Everything in Starter</li>
+              <li>Follow-up automation</li>
+              <li>Dashboard + weekly snapshot</li>
+              <li>2–3 templates (quotes/docs)</li>
+            </ul>
+          </div>
 
-      <div class="card">
-        <h3>Starter</h3>
-        <p class="price">€1,200 – €2,000</p>
+          <div class="card price">
+            <h3>Custom</h3>
+            <p class="tag">For complex workflows</p>
+            <div class="money">From €4,000</div>
+            <ul class="check">
+              <li>Multi-channel intake (optional)</li>
+              <li>Advanced docs + integrations</li>
+              <li>Custom workflow design</li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="note center">
+          Optional support: €149–€299/month (monitoring, tweaks, improvements).
+        </p>
       </div>
+    </section>
 
-      <div class="card highlight">
-        <h3>System</h3>
-        <p class="price">€2,000 – €4,000</p>
+    <!-- FAQ -->
+    <section id="faq" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>FAQ</h2>
+          <p class="sub">Straight answers. No hype.</p>
+        </div>
+
+        <div class="faq">
+          <details class="card" open>
+            <summary>Do I need new software or a new CRM?</summary>
+            <p>No. We can start with what you already use (email + Sheets), or set up a simple CRM if needed.</p>
+          </details>
+
+          <details class="card">
+            <summary>Is this “AI”? Do my customers see AI?</summary>
+            <p>We focus on outcomes (faster replies and better follow-up). Customers simply get faster responses and clearer questions.</p>
+          </details>
+
+          <details class="card">
+            <summary>Will this replace my admin?</summary>
+            <p>It reduces admin workload. Most clients keep human control for final quotes, but automation handles the repetitive parts.</p>
+          </details>
+
+          <details class="card">
+            <summary>How do you handle GDPR and data?</summary>
+            <p>We only collect what you already collect for quoting. We can keep data in your existing tools (Google/Microsoft) and follow best practices.</p>
+          </details>
+
+          <details class="card">
+            <summary>What if I want to change the messages later?</summary>
+            <p>You’ll have editable templates and a clear process. Optional monthly support is available for ongoing improvements.</p>
+          </details>
+        </div>
       </div>
+    </section>
 
-      <div class="card">
-        <h3>Custom</h3>
-        <p class="price">From €4,000</p>
+    <!-- ABOUT -->
+    <section id="about" class="section alt">
+      <div class="container grid2">
+        <div class="card">
+          <h2>About Vertex</h2>
+          <p class="sub">
+            Vertex is focused on one thing: helping construction companies win more jobs through simple automation.
+          </p>
+          <p>
+            Many contractors lose work not because of quality, but because enquiries are missed, replies are slow,
+            or follow-ups never happen. We fix that with practical systems that fit your workflow.
+          </p>
+          <p class="note">
+            Serving Dublin primarily, and working with teams across Ireland remotely.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>What we deliver</h3>
+          <ul class="check">
+            <li>One clear pipeline for all enquiries</li>
+            <li>Faster responses with consistent messaging</li>
+            <li>Follow-up that runs automatically</li>
+            <li>Quote drafts and templates that save time</li>
+            <li>Simple reporting and visibility</li>
+          </ul>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </div>
-</section>
+    <!-- CONTACT -->
+    <section id="contact" class="section">
+      <div class="container grid2">
+        <div>
+          <h2>Book a call</h2>
+          <p class="sub">Tell me what you do and how you handle quote requests today.</p>
 
-<section id="contact" class="section alt">
-  <div class="container">
-    <h2>Contact</h2>
-    <p>Email: <b>sebastian@yourdomain.ie</b></p>
-  </div>
-</section>
+          <div class="card">
+            <h3>Option A: Calendly</h3>
+            <p>Paste your Calendly link here when you create it.</p>
+            <p class="mono">https://calendly.com/your-link</p>
+          </div>
 
-<footer class="footer">
-  <div class="container">
-    © <span id="year"></span> Vertex Construction Automation
-  </div>
-</footer>
+          <div class="card">
+            <h3>Option B: Contact form</h3>
+            <p>Use Formspree (free) to receive messages directly by email.</p>
+            <p class="note">Replace the form action URL with your Formspree form ID.</p>
+          </div>
 
-</main>
+          <div class="card">
+            <h3>Email</h3>
+            <p class="mono">sebastian@yourdomain.ie</p>
+            <p class="note">(Update this after you buy your domain.)</p>
+          </div>
+        </div>
 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+        <div class="card">
+          <h3>Send a message</h3>
+          <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+            <label>Name
+              <input name="name" autocomplete="name" required />
+            </label>
 
+            <label>Email
+              <input type="email" name="email" autocomplete="email" required />
+            </label>
+
+            <label>Company / Trade
+              <input name="company" autocomplete="organization" />
+            </label>
+
+            <label>What do you want to automate?
+              <textarea name="message" rows="6" required></textarea>
+            </label>
+
+            <button class="btn" type="submit">Send</button>
+            <p class="note">Replace <span class="mono">YOUR_FORM_ID</span> with your Formspree form ID.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container foot">
+        <span>© <span id="year"></span> Vertex Construction Automation</span>
+        <span class="mono">Faster replies. More jobs won.</span>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const btn = document.getElementById("menuBtn");
+    const menu = document.getElementById("mobileMenu");
+    btn.addEventListener("click", () => {
+      const open = menu.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+
+    // Close mobile menu when clicking a link
+    menu.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        menu.classList.remove("open");
+        btn.setAttribute("aria-expanded", "false");
+      });
+    });
+  </script>
 </body>
 </html>
