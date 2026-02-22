@@ -42,12 +42,12 @@ img{max-width:100%;height:auto;display:block}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:25px 0;
+  padding:12px 0;
   gap:14px;
 }
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
 
-/* ✅ LOGO FIX (no more full-screen) */
+/* LOGO */
 .logo{
   height:78px;
   width:auto;
@@ -93,9 +93,10 @@ img{max-width:100%;height:auto;display:block}
   display:none;
   border:1px solid var(--line);
   background:var(--panel);
-  border-radius:12px;
-  padding:10px;
+  border-radius:14px;
+  padding:12px;
   box-shadow: var(--shadow);
+  margin-right:8px; /* pulls it away from the edge */
 }
 .menu-btn span{
   display:block;
@@ -259,16 +260,51 @@ h2{font-size:30px;margin:0 0 8px}
   margin-bottom:10px;
 }
 
-/* Callout */
-.callout{
-  margin-top:16px;
+/* ===== NEW Timeline banner ===== */
+.timeline-banner{
+  margin-top:18px;
+  background: linear-gradient(135deg, rgba(11,99,246,.10), rgba(16,185,129,.08));
+  border:1px solid rgba(11,99,246,.18);
+  border-radius:22px;
+  padding:18px;
+  box-shadow: var(--shadow);
   display:flex;
-  gap:12px;
   align-items:center;
   justify-content:space-between;
-  border:1px solid rgba(11,99,246,.18);
+  gap:14px;
 }
-.callout .btn{white-space:nowrap}
+.timeline-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  min-width:260px;
+}
+.timeline-icon{
+  width:44px;height:44px;
+  border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  background: rgba(11,99,246,.12);
+  border:1px solid rgba(11,99,246,.18);
+  font-size:20px;
+}
+.timeline-title{margin:0 0 4px}
+.timeline-sub{margin:0;color:var(--muted)}
+.timeline-right{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.timeline-meta{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  color:var(--muted);
+  font-size:13px;
+  padding:10px 12px;
+  background: rgba(255,255,255,.65);
+  border:1px solid var(--line);
+  border-radius:16px;
+}
 
 /* Pricing */
 .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -287,6 +323,32 @@ h2{font-size:30px;margin:0 0 8px}
   color:var(--text);
 }
 .faq details p{margin-top:10px}
+
+/* ===== Contact divider ===== */
+.contact-divider{
+  margin:14px 0 12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--muted);
+  font-weight:800;
+  font-size:12px;
+  letter-spacing:.2px;
+  text-transform:uppercase;
+}
+.contact-divider::before,
+.contact-divider::after{
+  content:"";
+  height:1px;
+  background: var(--line);
+  flex:1;
+}
+.contact-divider span{
+  padding:6px 10px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background: rgba(255,255,255,.7);
+}
 
 /* Forms */
 label{display:block;margin:10px 0;color:var(--muted);font-size:13px}
@@ -322,7 +384,7 @@ button{border:0;cursor:pointer}
 }
 .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 
-/* ✅ RESPONSIVE BREAKPOINTS */
+/* ===== RESPONSIVE ===== */
 
 /* Tablets */
 @media (max-width: 980px){
@@ -332,7 +394,15 @@ button{border:0;cursor:pointer}
   .pricing{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
   .steps{grid-template-columns:repeat(2,1fr)}
-  .callout{flex-direction:column;align-items:flex-start}
+
+  .timeline-banner{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .timeline-right{
+    width:100%;
+    justify-content:space-between;
+  }
 }
 
 /* Phones */
@@ -344,8 +414,15 @@ button{border:0;cursor:pointer}
   .section{padding:44px 0}
   .cards.two, .cards.three{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
-  .logo{height:70px;}
+  .logo{height:62px}
   .stat{min-width:unset;width:100%}
+
+  .timeline-right{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .timeline-meta{width:100%}
+  .timeline-right .btn{width:100%; text-align:center}
 }
 
 /* Large screens / TV */
