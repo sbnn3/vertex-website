@@ -49,9 +49,9 @@ img{max-width:100%;height:auto;display:block}
 
 /* ✅ LOGO FIX (no more full-screen) */
 .logo{
-  height:46px;
+  height:62px;
   width:auto;
-  max-width:220px;
+  max-width:320px;
   object-fit:contain;
 }
 
@@ -344,7 +344,7 @@ button{border:0;cursor:pointer}
   .section{padding:44px 0}
   .cards.two, .cards.three{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
-  .logo{height:40px;max-width:200px}
+  .logo{height:52px;max-width:260px}
   .stat{min-width:unset;width:100%}
 }
 
