@@ -390,18 +390,28 @@ button{border:0;cursor:pointer}
 @media (max-width: 980px){
   h1{font-size:38px}
   .grid2{grid-template-columns:1fr;gap:14px}
+
   .cards.three{grid-template-columns:repeat(2,1fr)}
   .pricing{grid-template-columns:1fr}
   .metrics{grid-template-columns:1fr}
   .steps{grid-template-columns:repeat(2,1fr)}
 
+  /* Timeline: stacked + aligned */
   .timeline-banner{
     flex-direction:column;
-    align-items:flex-start;
+    align-items:stretch;
+    padding:16px;
+  }
+  .timeline-left{
+    min-width:unset;
   }
   .timeline-right{
     width:100%;
     justify-content:space-between;
+    gap:12px;
+  }
+  .timeline-meta{
+    width:100%;
   }
 }
 
@@ -410,20 +420,66 @@ button{border:0;cursor:pointer}
   h1{font-size:34px}
   .links{display:none}
   .menu-btn{display:inline-block}
+
   .hero{padding:46px 0 18px}
   .section{padding:44px 0}
+
   .cards.two, .cards.three{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
+  .pricing{grid-template-columns:1fr}
+
   .logo{height:62px}
   .stat{min-width:unset;width:100%}
 
+  /* Make cards breathe on mobile */
+  .card{padding:16px}
+  .section-head{margin-bottom:12px}
+
+  /* Timeline: clean mobile layout */
+  .timeline-banner{
+    padding:16px;
+    gap:12px;
+  }
+  .timeline-left{
+    gap:10px;
+  }
+  .timeline-icon{
+    width:40px;height:40px;border-radius:14px;
+    font-size:18px;
+  }
   .timeline-right{
     flex-direction:column;
     align-items:stretch;
+    gap:10px;
   }
-  .timeline-meta{width:100%}
-  .timeline-right .btn{width:100%; text-align:center}
+  .timeline-meta{
+    width:100%;
+    padding:12px;
+    border-radius:16px;
+  }
+  .timeline-right .btn{
+    width:100%;
+    text-align:center;
+    padding:14px 16px;
+    border-radius:16px;
+  }
+
+  /* Contact: better spacing on mobile */
+  .contact-divider{
+    margin:18px 0 14px;
+  }
+
+  /* Mobile menu button not hugging the edge */
+  .menu-btn{
+    margin-right:2px; /* more centered */
+    
+  .cta-row .btn, .cta-row .btn.ghost{
+    width:100%;
+    text-align:center;
+  }
 }
+
+Asta face buto
 
 /* Large screens / TV */
 @media (min-width: 1600px){
