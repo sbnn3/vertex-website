@@ -42,16 +42,16 @@ img{max-width:100%;height:auto;display:block}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:12px 0;
+  padding:18px 0;
   gap:14px;
 }
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:inherit}
 
 /* ✅ LOGO FIX (no more full-screen) */
 .logo{
-  height:62px;
+  height:72px;
   width:auto;
-  max-width:320px;
+  max-width:420px;
   object-fit:contain;
 }
 
@@ -344,7 +344,7 @@ button{border:0;cursor:pointer}
   .section{padding:44px 0}
   .cards.two, .cards.three{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
-  .logo{height:52px;max-width:260px}
+  .logo{height:58px;max-width:320px}
   .stat{min-width:unset;width:100%}
 }
 
