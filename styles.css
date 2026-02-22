@@ -49,10 +49,10 @@ img{max-width:100%;height:auto;display:block}
 
 /* ✅ LOGO FIX (no more full-screen) */
 .logo{
-  height:90px;
+  height:78px;
   width:auto;
-  max-width:none;
   object-fit:contain;
+  display:block;
 }
 
 /* Desktop links */
@@ -344,7 +344,7 @@ button{border:0;cursor:pointer}
   .section{padding:44px 0}
   .cards.two, .cards.three{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
-  .logo{height:70px;max-width:none}
+  .logo{height:70px;}
   .stat{min-width:unset;width:100%}
 }
 
