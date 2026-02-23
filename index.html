@@ -296,17 +296,16 @@
             <h3>Option A: Calendly</h3>
             <p class="sub">Book directly on the site — it takes less than a minute.</p>
 
-            <!-- Popup booking button -->
-            <button class="btn" type="button" id="calendlyBtn">
-              Book via Calendly
-            </button>
+            <div class="center-actions">
+              <button class="btn" type="button" id="calendlyBtn">
+                Book via Calendly
+              </button>
+            </div>
+          </div>
 
-            <p class="note" style="margin-top:12px">
-              Or use this link:
-              <a class="mono" href="https://calendly.com/sebastian-vertexautomation/30min" target="_blank" rel="noopener noreferrer">
-                calendly.com/sebastian-vertexautomation/30min
-              </a>
-            </p>
+          <div class="card">
+            <h3>Option B: Live Chat</h3>
+            <p class="sub">Ask quick questions in the chat (bottom-right) — instant replies.</p>
           </div>
 
           <div class="card">
@@ -349,26 +348,46 @@
   </main>
 
   <!-- SUCCESS MODAL -->
-<div class="vx-modal" id="successModal" aria-hidden="true" role="dialog" aria-modal="true">
-  <div class="vx-modal__backdrop" data-close="true"></div>
+  <div class="vx-modal" id="successModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="vx-modal__backdrop" data-close="true"></div>
 
-  <div class="vx-modal__card" role="document">
-    <button class="vx-modal__close" type="button" aria-label="Close" data-close="true">×</button>
+    <div class="vx-modal__card" role="document">
+      <button class="vx-modal__close" type="button" aria-label="Close" data-close="true">×</button>
 
-    <h3>Message sent</h3>
-    <p class="sub">
-      Thanks for reaching out — I’ve received your message and I’ll get back to you as soon as possible.
-    </p>
-    <p class="note">
-      If it’s urgent, you can email me directly at <span class="mono">sebastian@vertexautomation.ie</span>.
-    </p>
+      <h3>Message sent</h3>
+      <p class="sub">
+        Thanks for reaching out — I’ve received your message and I’ll get back to you as soon as possible.
+      </p>
+      <p class="note">
+        If it’s urgent, you can email me directly at <span class="mono">sebastian@vertexautomation.ie</span>.
+      </p>
 
-    <div class="vx-modal__actions">
-      <a class="btn" href="#contact" data-close="true">Back to options</a>
-      <a class="btn ghost" href="#top" data-close="true">Close</a>
+      <div class="vx-modal__actions">
+        <a class="btn" href="#contact" data-close="true">Back to options</a>
+        <a class="btn ghost" href="#top" data-close="true">Close</a>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- AI LIVE CHAT WIDGET (place BEFORE scripts so JS can find elements) -->
+  <button class="chat-fab" id="chatFab" aria-label="Open live chat">💬</button>
+
+  <div class="chat-widget" id="chatWidget" aria-hidden="true">
+    <div class="chat-header">
+      <div>
+        <div class="chat-title">Vertex Live Chat</div>
+        <div class="chat-sub">AI assistant • replies instantly</div>
+      </div>
+      <button class="chat-close" id="chatClose" aria-label="Close chat">×</button>
+    </div>
+
+    <div class="chat-body" id="chatBody" role="log" aria-live="polite"></div>
+
+    <form class="chat-input" id="chatForm" autocomplete="off">
+      <input id="chatText" type="text" placeholder="Type your question…" aria-label="Chat message" required />
+      <button class="btn small" type="submit">Send</button>
+    </form>
+  </div>
 
   <!-- Calendly popup widget (official) -->
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
@@ -400,38 +419,35 @@
       if (window.Calendly && typeof window.Calendly.initPopupWidget === "function") {
         window.Calendly.initPopupWidget({ url: "https://calendly.com/sebastian-vertexautomation/30min" });
       } else {
-        // fallback if script still loading
         window.open("https://calendly.com/sebastian-vertexautomation/30min", "_blank", "noopener,noreferrer");
       }
     });
 
-      // Modal helpers
-  const successModal = document.getElementById("successModal");
-  
-  function openModal() {
-    successModal.classList.add("is-open");
-    successModal.setAttribute("aria-hidden", "false");
-    document.body.classList.add("modal-open");
-  }
-  
-  function closeModal() {
-    successModal.classList.remove("is-open");
-    successModal.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("modal-open");
-  }
-  
-  // Close modal (buttons + backdrop)
-  successModal.addEventListener("click", (e) => {
-    const target = e.target;
-    if (target && target.dataset && target.dataset.close === "true") closeModal();
-  });
+    // Modal helpers
+    const successModal = document.getElementById("successModal");
 
-// ESC closes modal
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && successModal.classList.contains("is-open")) closeModal();
-});
+    function openModal() {
+      successModal.classList.add("is-open");
+      successModal.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+    }
 
-    // Formspree AJAX submit (stay on page + show modal)
+    function closeModal() {
+      successModal.classList.remove("is-open");
+      successModal.setAttribute("aria-hidden", "true");
+      document.body.classList.remove("modal-open");
+    }
+
+    successModal.addEventListener("click", (e) => {
+      const target = e.target;
+      if (target && target.dataset && target.dataset.close === "true") closeModal();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && successModal.classList.contains("is-open")) closeModal();
+    });
+
+    // Formspree AJAX submit
     const contactForm = document.getElementById("contactForm");
 
     contactForm.addEventListener("submit", async (e) => {
@@ -466,110 +482,85 @@ document.addEventListener("keydown", (e) => {
     });
 
     // --- Simple AI-like chat (rule-based) ---
-const chatFab = document.getElementById("chatFab");
-const chatWidget = document.getElementById("chatWidget");
-const chatClose = document.getElementById("chatClose");
-const chatForm = document.getElementById("chatForm");
-const chatText = document.getElementById("chatText");
-const chatBody = document.getElementById("chatBody");
+    const chatFab = document.getElementById("chatFab");
+    const chatWidget = document.getElementById("chatWidget");
+    const chatClose = document.getElementById("chatClose");
+    const chatForm = document.getElementById("chatForm");
+    const chatText = document.getElementById("chatText");
+    const chatBody = document.getElementById("chatBody");
 
-let unknownCount = 0;
+    let unknownCount = 0;
 
-function openChat() {
-  chatWidget.classList.add("is-open");
-  chatWidget.setAttribute("aria-hidden", "false");
-  chatText.focus();
-}
-
-function closeChat() {
-  chatWidget.classList.remove("is-open");
-  chatWidget.setAttribute("aria-hidden", "true");
-}
-
-function addMsg(who, text) {
-  const wrap = document.createElement("div");
-  wrap.className = `chat-msg ${who}`;
-  wrap.innerHTML = `<div class="bubble">${text}</div>`;
-  chatBody.appendChild(wrap);
-  chatBody.scrollTop = chatBody.scrollHeight;
-}
-
-function botReply(userMsg) {
-  const m = userMsg.toLowerCase();
-
-  const replies = [
-    { k: ["price", "cost", "pricing", "how much"], r: "Pilot setups typically start from €900. The final cost depends on your workflow and how many enquiry sources you have (email, website, messages)." },
-    { k: ["timeline", "how long", "time", "days", "weeks"], r: "Most pilots go live in 7–14 days. Week 1: audit + build. Week 2: testing + launch." },
-    { k: ["what do you do", "services", "offer", "pilot"], r: "Vertex helps construction businesses respond faster to quote enquiries, run consistent follow-ups, and track everything in one simple pipeline." },
-    { k: ["gmail", "google", "sheets", "crm"], r: "We can start with Gmail + Google Sheets (no heavy software). If you already use a CRM, we can plug into it too." },
-    { k: ["book", "call", "calendly", "meeting"], r: "You can book a call via Calendly in the ‘Book a call’ section. If you want, tell me your availability and I’ll guide you." },
-    { k: ["location", "dublin", "ireland"], r: "The pilot is designed for contractors in Dublin and across Ireland. Remote setup is available." }
-  ];
-
-  const hit = replies.find(x => x.k.some(key => m.includes(key)));
-  if (hit) {
-    unknownCount = 0;
-    return hit.r;
-  }
-
-  unknownCount += 1;
-
-  if (unknownCount >= 2) {
-    unknownCount = 0;
-    return `I might not have enough detail to answer that accurately. For specific questions, please email Sebastian at <span class="mono">sebastian@vertexautomation.ie</span>.`;
-  }
-
-  return "Got it. Could you share a bit more detail (trade, how enquiries come in, and what you want to improve)?";
-}
-
-// Open/close
-chatFab.addEventListener("click", () => {
-  if (!chatWidget.classList.contains("is-open")) {
-    openChat();
-    if (chatBody.childElementCount === 0) {
-      addMsg("bot", "Hi — I’m the Vertex AI assistant. How can I help today?");
+    function openChat() {
+      chatWidget.classList.add("is-open");
+      chatWidget.setAttribute("aria-hidden", "false");
+      chatText.focus();
     }
-  } else {
-    closeChat();
-  }
-});
 
-chatClose.addEventListener("click", closeChat);
+    function closeChat() {
+      chatWidget.classList.remove("is-open");
+      chatWidget.setAttribute("aria-hidden", "true");
+    }
 
-// Submit message
-chatForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const msg = chatText.value.trim();
-  if (!msg) return;
+    function addMsg(who, text) {
+      const wrap = document.createElement("div");
+      wrap.className = `chat-msg ${who}`;
+      wrap.innerHTML = `<div class="bubble">${text}</div>`;
+      chatBody.appendChild(wrap);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    }
 
-  addMsg("user", msg);
-  chatText.value = "";
+    function botReply(userMsg) {
+      const m = userMsg.toLowerCase();
 
-  // small delay to feel natural
-  setTimeout(() => addMsg("bot", botReply(msg)), 300);
-});
+      const replies = [
+        { k: ["price", "cost", "pricing", "how much"], r: "Pilot setups typically start from €900. The final cost depends on your workflow and how many enquiry sources you have (email, website, messages)." },
+        { k: ["timeline", "how long", "time", "days", "weeks"], r: "Most pilots go live in 7–14 days. Week 1: audit + build. Week 2: testing + launch." },
+        { k: ["what do you do", "services", "offer", "pilot"], r: "Vertex helps construction businesses respond faster to quote enquiries, run consistent follow-ups, and track everything in one simple pipeline." },
+        { k: ["gmail", "google", "sheets", "crm"], r: "We can start with Gmail + Google Sheets (no heavy software). If you already use a CRM, we can plug into it too." },
+        { k: ["book", "call", "calendly", "meeting"], r: "You can book a call via Calendly in the ‘Book a call’ section. If you want, tell me your availability and I’ll guide you." },
+        { k: ["location", "dublin", "ireland"], r: "The pilot is designed for contractors in Dublin and across Ireland. Remote setup is available." }
+      ];
+
+      const hit = replies.find(x => x.k.some(key => m.includes(key)));
+      if (hit) {
+        unknownCount = 0;
+        return hit.r;
+      }
+
+      unknownCount += 1;
+
+      if (unknownCount >= 2) {
+        unknownCount = 0;
+        return `I might not have enough detail to answer that accurately. For specific questions, please email Sebastian at <span class="mono">sebastian@vertexautomation.ie</span>.`;
+      }
+
+      return "Got it. Could you share a bit more detail (trade, how enquiries come in, and what you want to improve)?";
+    }
+
+    chatFab.addEventListener("click", () => {
+      if (!chatWidget.classList.contains("is-open")) {
+        openChat();
+        if (chatBody.childElementCount === 0) {
+          addMsg("bot", "Hi — I’m the Vertex AI assistant. How can I help today?");
+        }
+      } else {
+        closeChat();
+      }
+    });
+
+    chatClose.addEventListener("click", closeChat);
+
+    chatForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const msg = chatText.value.trim();
+      if (!msg) return;
+
+      addMsg("user", msg);
+      chatText.value = "";
+
+      setTimeout(() => addMsg("bot", botReply(msg)), 300);
+    });
   </script>
-
-  <!-- AI LIVE CHAT WIDGET -->
-<button class="chat-fab" id="chatFab" aria-label="Open live chat">
-  💬
-</button>
-
-<div class="chat-widget" id="chatWidget" aria-hidden="true">
-  <div class="chat-header">
-    <div>
-      <div class="chat-title">Vertex Live Chat</div>
-      <div class="chat-sub">AI assistant • replies instantly</div>
-    </div>
-    <button class="chat-close" id="chatClose" aria-label="Close chat">×</button>
-  </div>
-
-  <div class="chat-body" id="chatBody" role="log" aria-live="polite"></div>
-
-  <form class="chat-input" id="chatForm" autocomplete="off">
-    <input id="chatText" type="text" placeholder="Type your question…" aria-label="Chat message" required />
-    <button class="btn small" type="submit">Send</button>
-  </form>
-</div>
 </body>
 </html>
