@@ -384,35 +384,45 @@ button{border:0;cursor:pointer}
 }
 .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 
-/* --- Modal (success popup) --- */
+/* --- Vertex modal (isolated, conflict-free) --- */
+body.modal-open {
+  overflow: hidden;
+}
+
+/* Blur only what matters */
 body.modal-open main,
 body.modal-open header,
 body.modal-open footer {
   filter: blur(6px);
 }
 
-body.modal-open {
-  overflow: hidden;
+/* Modal base */
+.vx-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 9999 !important;
+
+  /* keep it fully hidden by default */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  display: block; /* safe even if other CSS touches display */
 }
 
-.modal {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: none;
+.vx-modal.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
-.modal.open {
-  display: block;
-}
-
-.modal__backdrop {
+.vx-modal__backdrop {
   position: absolute;
   inset: 0;
   background: rgba(0,0,0,0.55);
 }
 
-.modal__card {
+.vx-modal__card {
   position: relative;
   width: min(560px, calc(100% - 32px));
   margin: 12vh auto 0;
@@ -424,18 +434,23 @@ body.modal-open {
   backdrop-filter: blur(10px);
 }
 
-.modal__card h3 {
-  margin: 0 0 8px;
+/* Mobile tweaks */
+@media (max-width: 520px) {
+  .vx-modal__card {
+    margin: 10vh auto 0;
+    padding: 18px 16px 14px;
+    border-radius: 16px;
+  }
 }
 
-.modal__actions {
+.vx-modal__actions {
   display: flex;
   gap: 10px;
   margin-top: 14px;
   flex-wrap: wrap;
 }
 
-.modal__close {
+.vx-modal__close {
   position: absolute;
   top: 10px;
   right: 12px;
@@ -449,9 +464,8 @@ body.modal-open {
   line-height: 1;
 }
 
-/* Better fallback on older browsers */
 @supports not (backdrop-filter: blur(10px)) {
-  .modal__card { background: #fff; }
+  .vx-modal__card { background: #fff; }
 }
 
 
