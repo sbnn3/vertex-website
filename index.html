@@ -486,6 +486,90 @@ document.addEventListener("keydown", (e) => {
         submitBtn.textContent = originalText;
       }
     });
+
+    // --- Simple AI-like chat (rule-based) ---
+const chatFab = document.getElementById("chatFab");
+const chatWidget = document.getElementById("chatWidget");
+const chatClose = document.getElementById("chatClose");
+const chatForm = document.getElementById("chatForm");
+const chatText = document.getElementById("chatText");
+const chatBody = document.getElementById("chatBody");
+
+let unknownCount = 0;
+
+function openChat() {
+  chatWidget.classList.add("is-open");
+  chatWidget.setAttribute("aria-hidden", "false");
+  chatText.focus();
+}
+
+function closeChat() {
+  chatWidget.classList.remove("is-open");
+  chatWidget.setAttribute("aria-hidden", "true");
+}
+
+function addMsg(who, text) {
+  const wrap = document.createElement("div");
+  wrap.className = `chat-msg ${who}`;
+  wrap.innerHTML = `<div class="bubble">${text}</div>`;
+  chatBody.appendChild(wrap);
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function botReply(userMsg) {
+  const m = userMsg.toLowerCase();
+
+  const replies = [
+    { k: ["price", "cost", "pricing", "how much"], r: "Pilot setups typically start from €900. The final cost depends on your workflow and how many enquiry sources you have (email, website, messages)." },
+    { k: ["timeline", "how long", "time", "days", "weeks"], r: "Most pilots go live in 7–14 days. Week 1: audit + build. Week 2: testing + launch." },
+    { k: ["what do you do", "services", "offer", "pilot"], r: "Vertex helps construction businesses respond faster to quote enquiries, run consistent follow-ups, and track everything in one simple pipeline." },
+    { k: ["gmail", "google", "sheets", "crm"], r: "We can start with Gmail + Google Sheets (no heavy software). If you already use a CRM, we can plug into it too." },
+    { k: ["book", "call", "calendly", "meeting"], r: "You can book a call via Calendly in the ‘Book a call’ section. If you want, tell me your availability and I’ll guide you." },
+    { k: ["location", "dublin", "ireland"], r: "The pilot is designed for contractors in Dublin and across Ireland. Remote setup is available." }
+  ];
+
+  const hit = replies.find(x => x.k.some(key => m.includes(key)));
+  if (hit) {
+    unknownCount = 0;
+    return hit.r;
+  }
+
+  unknownCount += 1;
+
+  if (unknownCount >= 2) {
+    unknownCount = 0;
+    return `I might not have enough detail to answer that accurately. For specific questions, please email Sebastian at <span class="mono">sebastian@vertexautomation.ie</span>.`;
+  }
+
+  return "Got it. Could you share a bit more detail (trade, how enquiries come in, and what you want to improve)?";
+}
+
+// Open/close
+chatFab.addEventListener("click", () => {
+  if (!chatWidget.classList.contains("is-open")) {
+    openChat();
+    if (chatBody.childElementCount === 0) {
+      addMsg("bot", "Hi — I’m the Vertex AI assistant. How can I help today?");
+    }
+  } else {
+    closeChat();
+  }
+});
+
+chatClose.addEventListener("click", closeChat);
+
+// Submit message
+chatForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const msg = chatText.value.trim();
+  if (!msg) return;
+
+  addMsg("user", msg);
+  chatText.value = "";
+
+  // small delay to feel natural
+  setTimeout(() => addMsg("bot", botReply(msg)), 300);
+});
   </script>
 </body>
 </html>
