@@ -384,6 +384,77 @@ button{border:0;cursor:pointer}
 }
 .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 
+/* --- Modal (success popup) --- */
+body.modal-open main,
+body.modal-open header,
+body.modal-open footer {
+  filter: blur(6px);
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;
+}
+
+.modal.open {
+  display: block;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+}
+
+.modal__card {
+  position: relative;
+  width: min(560px, calc(100% - 32px));
+  margin: 12vh auto 0;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 18px;
+  padding: 22px 22px 18px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+}
+
+.modal__card h3 {
+  margin: 0 0 8px;
+}
+
+.modal__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.modal__close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.08);
+  background: rgba(255,255,255,0.75);
+  cursor: pointer;
+  font-size: 22px;
+  line-height: 1;
+}
+
+/* Better fallback on older browsers */
+@supports not (backdrop-filter: blur(10px)) {
+  .modal__card { background: #fff; }
+}
+
+
 /* ===== RESPONSIVE ===== */
 
 /* Tablets */
@@ -487,3 +558,5 @@ Asta face buto
   h1{font-size:52px}
   h2{font-size:34px}
 }
+
+
