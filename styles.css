@@ -359,7 +359,7 @@ input:focus,textarea:focus{
 }
 button{border:0;cursor:pointer}
 
-/* Center Calendly button in its card */
+/* Center Calendly button */
 .center-actions{
   display:flex;
   justify-content:center;
@@ -372,25 +372,54 @@ button{border:0;cursor:pointer}
   padding:18px 0;
   background:rgba(255,255,255,.65);
 }
-.foot{
+.footer-inner{
   display:flex;
+  align-items:flex-start;
   justify-content:space-between;
-  align-items:center;
-  gap:12px;
+  gap:18px;
   flex-wrap:wrap;
-  color:var(--muted);
 }
+.footer-left{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.footer-brand{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.footer-title{font-weight:900}
+.footer-sub{color:var(--muted);font-size:13px}
+.footer-meta{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:13px;
+}
+.dot{opacity:.6}
+.footer-right{
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-end;
+}
+.footer-link{
+  text-decoration:none;
+  color:var(--muted);
+  font-weight:800;
+  border:1px solid var(--line);
+  padding:8px 10px;
+  border-radius:12px;
+  background: rgba(255,255,255,.7);
+}
+.footer-link:hover{color:var(--text);border-color:#cbd5e1}
+
 .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 
-@media (max-width: 720px){
-  .foot{
-    flex-direction:column;
-    text-align:center;
-    gap:8px;
-  }
-}
-
-/* --- Vertex modal --- */
+/* --- Modals --- */
 body.modal-open{overflow:hidden}
 body.modal-open main,
 body.modal-open header,
@@ -418,7 +447,7 @@ body.modal-open footer{filter: blur(6px)}
 .vx-modal__card{
   position: relative;
   width: min(560px, calc(100% - 32px));
-  margin: 12vh auto 0;
+  margin: 10vh auto 0;
   background: rgba(255,255,255,0.92);
   border: 1px solid rgba(255,255,255,0.35);
   border-radius: 18px;
@@ -426,12 +455,8 @@ body.modal-open footer{filter: blur(6px)}
   box-shadow: 0 24px 60px rgba(0,0,0,0.25);
   backdrop-filter: blur(10px);
 }
-@media (max-width: 520px){
-  .vx-modal__card{
-    margin: 10vh auto 0;
-    padding: 18px 16px 14px;
-    border-radius: 16px;
-  }
+.vx-modal__card--large{
+  width: min(860px, calc(100% - 32px));
 }
 .vx-modal__actions{
   display:flex;
@@ -452,9 +477,60 @@ body.modal-open footer{filter: blur(6px)}
   font-size:22px;
   line-height:1;
 }
+.legal-content{
+  margin-top:10px;
+  max-height: 55vh;
+  overflow:auto;
+  padding-right:6px;
+}
+.legal-content h4{margin:16px 0 8px}
+.legal-content ul{margin:8px 0 0;padding-left:18px}
+.legal-content li{margin:6px 0}
 @supports not (backdrop-filter: blur(10px)){
   .vx-modal__card{background:#fff;}
 }
+@media (max-width: 520px){
+  .vx-modal__card{
+    margin: 8vh auto 0;
+    padding: 18px 16px 14px;
+    border-radius: 16px;
+  }
+  .legal-content{max-height: 60vh}
+}
+
+/* --- Cookie banner --- */
+.cookie-banner{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9997;
+  padding: 14px;
+  display: none;
+}
+.cookie-banner.is-open{display:block}
+.cookie-inner{
+  max-width: 1100px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 18px;
+  padding: 14px 14px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.22);
+  backdrop-filter: blur(12px);
+  display:flex;
+  gap:14px;
+  align-items:flex-start;
+  justify-content:space-between;
+}
+.cookie-text p{margin:6px 0 0}
+.cookie-actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.cookie-actions .btn{white-space:nowrap}
 
 /* --- Chat widget --- */
 .chat-fab{
@@ -473,7 +549,7 @@ body.modal-open footer{filter: blur(6px)}
   background: rgba(255,255,255,0.65);
 }
 
-/* ✅ NEW: flex layout so input area never gets cut off */
+/* flex layout so input is never cut off */
 .chat-widget{
   position: fixed;
   right: 18px;
@@ -495,8 +571,8 @@ body.modal-open footer{filter: blur(6px)}
   transform: translateY(10px);
   transition: opacity .18s ease, transform .18s ease, visibility .18s ease;
 
-  display: flex;
-  flex-direction: column;
+  display:flex;
+  flex-direction:column;
 }
 .chat-widget.is-open{
   opacity: 1;
@@ -504,7 +580,6 @@ body.modal-open footer{filter: blur(6px)}
   pointer-events: auto;
   transform: translateY(0);
 }
-
 .chat-header{
   flex: 0 0 auto;
   display:flex;
@@ -515,7 +590,6 @@ body.modal-open footer{filter: blur(6px)}
 }
 .chat-title{font-weight:800}
 .chat-sub{opacity:.7;font-size:13px;margin-top:2px}
-
 .chat-close{
   width: 38px;
   height: 38px;
@@ -526,18 +600,15 @@ body.modal-open footer{filter: blur(6px)}
   font-size: 22px;
   line-height: 1;
 }
-
 .chat-body{
   flex: 1 1 auto;
   padding:14px;
   overflow-y:auto;
-  min-height: 0;
+  min-height:0;
 }
-
 .chat-msg{display:flex;margin:10px 0}
 .chat-msg.user{justify-content:flex-end}
 .chat-msg.bot{justify-content:flex-start}
-
 .chat-msg .bubble{
   max-width: 78%;
   padding: 10px 12px;
@@ -545,10 +616,7 @@ body.modal-open footer{filter: blur(6px)}
   border: 1px solid rgba(0,0,0,0.06);
   background: rgba(255,255,255,0.85);
 }
-.chat-msg.user .bubble{
-  background: rgba(0,0,0,0.06);
-}
-
+.chat-msg.user .bubble{background: rgba(0,0,0,0.06)}
 .chat-input{
   flex: 0 0 auto;
   display:flex;
@@ -567,7 +635,7 @@ body.modal-open footer{filter: blur(6px)}
   outline:none;
 }
 
-/* --- RESPONSIVE --- */
+/* RESPONSIVE */
 @media (max-width: 980px){
   h1{font-size:38px}
   .grid2{grid-template-columns:1fr;gap:14px}
@@ -589,6 +657,12 @@ body.modal-open footer{filter: blur(6px)}
     gap:12px;
   }
   .timeline-meta{width:100%}
+
+  .cookie-inner{
+    flex-direction:column;
+    align-items:stretch;
+  }
+  .cookie-actions{justify-content:flex-start}
 }
 
 @media (max-width: 640px){
@@ -633,13 +707,21 @@ body.modal-open footer{filter: blur(6px)}
   }
 
   .contact-divider{margin:18px 0 14px}
-
   .menu-btn{margin-right:2px}
 
   .cta-row .btn,
   .cta-row .btn.ghost{
     width:100%;
     text-align:center;
+  }
+
+  .footer-inner{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+  }
+  .footer-right{
+    justify-content:flex-start;
   }
 }
 
