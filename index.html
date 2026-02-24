@@ -59,12 +59,12 @@
 
           <div class="stats">
             <div class="stat"><b>Minutes</b><span>instant acknowledgement</span></div>
-            <div class="stat"><b>3 & 7 days</b><span>follow-up sequence</span></div>
+            <div class="stat"><b>3 &amp; 7 days</b><span>follow-up sequence</span></div>
             <div class="stat"><b>One pipeline</b><span>all leads organised</span></div>
           </div>
 
           <p class="note">
-            Designed for small & mid-sized contractors (Dublin and nationwide). Remote setup available.
+            Designed for small &amp; mid-sized contractors (Dublin and nationwide). Remote setup available.
           </p>
         </div>
 
@@ -481,7 +481,7 @@
       }
     });
 
-    // --- Simple AI-like chat (rule-based) ---
+    // --- Smarter AI-like chat (frontend, rule-based) ---
     const chatFab = document.getElementById("chatFab");
     const chatWidget = document.getElementById("chatWidget");
     const chatClose = document.getElementById("chatClose");
@@ -511,21 +511,73 @@
     }
 
     function botReply(userMsg) {
-      const m = userMsg.toLowerCase();
+      const raw = userMsg.trim();
+      const m = raw.toLowerCase();
 
-      const replies = [
-        { k: ["price", "cost", "pricing", "how much"], r: "Pilot setups typically start from €900. The final cost depends on your workflow and how many enquiry sources you have (email, website, messages)." },
-        { k: ["timeline", "how long", "time", "days", "weeks"], r: "Most pilots go live in 7–14 days. Week 1: audit + build. Week 2: testing + launch." },
-        { k: ["what do you do", "services", "offer", "pilot"], r: "Vertex helps construction businesses respond faster to quote enquiries, run consistent follow-ups, and track everything in one simple pipeline." },
-        { k: ["gmail", "google", "sheets", "crm"], r: "We can start with Gmail + Google Sheets (no heavy software). If you already use a CRM, we can plug into it too." },
-        { k: ["book", "call", "calendly", "meeting"], r: "You can book a call via Calendly in the ‘Book a call’ section. If you want, tell me your availability and I’ll guide you." },
-        { k: ["location", "dublin", "ireland"], r: "The pilot is designed for contractors in Dublin and across Ireland. Remote setup is available." }
-      ];
+      const containsAny = (arr) => arr.some(k => m.includes(k));
+      const has = (...arr) => containsAny(arr.flat());
 
-      const hit = replies.find(x => x.k.some(key => m.includes(key)));
-      if (hit) {
+      const emailLike = raw.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
+      const phoneLike = raw.match(/(\+?\d[\d\s().-]{7,}\d)/);
+
+      if (raw.length <= 3) {
+        return "No problem — could you tell me what you’d like help with (pricing, timeline, follow-ups, or booking a call)?";
+      }
+
+      if (has(["book", "call", "meeting", "calendly", "schedule", "appointment"])) {
         unknownCount = 0;
-        return hit.r;
+        return "You can book a call using the Calendly button in this section. If you prefer, tell me what day/time suits you and I’ll suggest the best next step.";
+      }
+
+      if (has(["price", "cost", "pricing", "how much", "fee", "budget"])) {
+        unknownCount = 0;
+        return "Pilot implementation starts from €900. Final pricing depends on your enquiry volume and where leads come from (email/website/messages). If you tell me your trade and how you receive enquiries today, I can estimate the best setup.";
+      }
+
+      if (has(["timeline", "how long", "time", "days", "weeks", "go live", "implementation"])) {
+        unknownCount = 0;
+        return "Most pilots go live in 7–14 days. Week 1 is audit + build. Week 2 is testing + launch. If you already have templates and a clear process, it can be quicker.";
+      }
+
+      if (has(["what do you do", "services", "offer", "pilot", "automation", "vertex"])) {
+        unknownCount = 0;
+        return "Vertex helps construction businesses reply faster to quote enquiries, send consistent follow-ups, and keep everything organised in one simple pipeline (so fewer leads get missed).";
+      }
+
+      if (has(["follow up", "follow-up", "no reply", "ghost", "missed", "slow reply", "response time"])) {
+        unknownCount = 0;
+        return "This is exactly what the pilot fixes: instant acknowledgement + qualifying questions, then an automated Day 3 / Day 7 follow-up sequence, and a pipeline view so you always know what’s open, won or lost.";
+      }
+
+      if (has(["gmail", "google", "sheets", "excel", "crm", "hubspot", "pipedrive", "salesforce", "outlook"])) {
+        unknownCount = 0;
+        return "We can start lightweight with Gmail + Google Sheets (no heavy software). If you already use a CRM (HubSpot/Pipedrive/etc.), we can integrate your enquiry flow into it instead.";
+      }
+
+      if (has(["quote", "pdf", "template", "generator", "draft"])) {
+        unknownCount = 0;
+        return "We can add a Quote Draft Generator module: you fill a simple input and it produces a consistent quote draft/PDF structure (scope, exclusions, basic formatting). It’s optional and only added if it fits your workflow.";
+      }
+
+      if (has(["report", "kpi", "weekly", "dashboard", "metrics"])) {
+        unknownCount = 0;
+        return "Yes — we can add weekly reporting: a simple snapshot of enquiries, quotes sent, wins/losses, and follow-up status. It helps spot what’s working and what’s leaking.";
+      }
+
+      if (has(["dublin", "ireland", "kildare", "cork", "galway", "limerick", "nationwide"])) {
+        unknownCount = 0;
+        return "The pilot is designed for contractors in Dublin and across Ireland. Setup can be fully remote, and we’ll tailor it to your current enquiry process.";
+      }
+
+      if (emailLike || phoneLike) {
+        unknownCount = 0;
+        return "Thanks — noted. If you’d like, tell me your trade and how enquiries come in (email/website/messages). Then the best next step is a short audit call to map the workflow.";
+      }
+
+      const broad = has(["help", "tell me", "can you", "how", "what", "why"]) && raw.length < 25;
+      if (broad) {
+        unknownCount = 0;
+        return "Sure — to point you in the right direction, what’s your trade and where do quote enquiries come from today (website form, email, Facebook/WhatsApp, or referrals)?";
       }
 
       unknownCount += 1;
@@ -535,7 +587,7 @@
         return `I might not have enough detail to answer that accurately. For specific questions, please email Sebastian at <span class="mono">sebastian@vertexautomation.ie</span>.`;
       }
 
-      return "Got it. Could you share a bit more detail (trade, how enquiries come in, and what you want to improve)?";
+      return "Got it. Could you share a bit more detail (trade, enquiry sources, and what you want to improve) so I can answer properly?";
     }
 
     chatFab.addEventListener("click", () => {
@@ -559,7 +611,7 @@
       addMsg("user", msg);
       chatText.value = "";
 
-      setTimeout(() => addMsg("bot", botReply(msg)), 300);
+      setTimeout(() => addMsg("bot", botReply(msg)), 280);
     });
   </script>
 </body>
