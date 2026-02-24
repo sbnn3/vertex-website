@@ -12,7 +12,7 @@
 <body>
   <header class="nav" id="top">
     <div class="container nav-inner">
-      <a href="https://vertexautomation.ie/" class="brand" aria-label="Vertex home">
+      <a href="#top" class="brand" aria-label="Vertex home">
         <img src="img/logo.svg" alt="Vertex Construction Automation" class="logo">
       </a>
 
@@ -301,6 +301,10 @@
                 Book via Calendly
               </button>
             </div>
+
+            <p class="note" style="margin-top:10px">
+              Tip: if you reject non-essential cookies, the booking will open in a new tab.
+            </p>
           </div>
 
           <div class="card">
@@ -340,9 +344,25 @@
     </section>
 
     <footer class="footer">
-      <div class="container foot">
-        <span>© <span id="year"></span> Vertex Construction Automation</span>
-        <span class="mono">Pilot program • Faster replies. More jobs won.</span>
+      <div class="container footer-inner">
+        <div class="footer-left">
+          <div class="footer-brand">
+            <span class="footer-title">Vertex Construction Automation</span>
+            <span class="footer-sub">Pilot program • Faster replies. More jobs won.</span>
+          </div>
+          <div class="footer-meta">
+            <span>© <span id="year"></span> Vertex</span>
+            <span class="dot">•</span>
+            <span>Ireland</span>
+          </div>
+        </div>
+
+        <div class="footer-right">
+          <a href="#" class="footer-link" data-legal="privacy">Privacy Policy</a>
+          <a href="#" class="footer-link" data-legal="terms">Terms of Use</a>
+          <a href="#" class="footer-link" data-legal="cookies">Cookie Policy</a>
+          <a href="#" class="footer-link" id="cookieSettingsLink">Cookie settings</a>
+        </div>
       </div>
     </footer>
   </main>
@@ -369,7 +389,42 @@
     </div>
   </div>
 
-  <!-- AI LIVE CHAT WIDGET (place BEFORE scripts so JS can find elements) -->
+  <!-- LEGAL MODAL (Privacy / Terms / Cookies) -->
+  <div class="vx-modal" id="legalModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="vx-modal__backdrop" data-close="true"></div>
+
+    <div class="vx-modal__card vx-modal__card--large" role="document">
+      <button class="vx-modal__close" type="button" aria-label="Close" data-close="true">×</button>
+      <h3 id="legalTitle">Legal</h3>
+      <div class="legal-content" id="legalContent"></div>
+      <div class="vx-modal__actions">
+        <button class="btn ghost" type="button" data-close="true">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- COOKIE BANNER -->
+  <div class="cookie-banner" id="cookieBanner" aria-hidden="true">
+    <div class="cookie-inner">
+      <div class="cookie-text">
+        <b>Cookies</b>
+        <p class="sub">
+          We use essential cookies to make this site work. With your permission, we may also load third-party tools (e.g. booking widgets) that can set non-essential cookies.
+        </p>
+        <p class="note">
+          You can change your choice anytime via “Cookie settings” in the footer.
+        </p>
+      </div>
+
+      <div class="cookie-actions">
+        <button class="btn ghost" type="button" id="cookieReject">Reject</button>
+        <button class="btn ghost" type="button" id="cookieEssential">Essentials only</button>
+        <button class="btn" type="button" id="cookieAccept">Accept all</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI LIVE CHAT WIDGET -->
   <button class="chat-fab" id="chatFab" aria-label="Open live chat">💬</button>
 
   <div class="chat-widget" id="chatWidget" aria-hidden="true">
@@ -389,15 +444,13 @@
     </form>
   </div>
 
-  <!-- Calendly popup widget (official) -->
-  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
-
   <script>
     // Footer year
     document.getElementById("year").textContent = new Date().getFullYear();
 
+    // ---------------------------
     // Mobile menu
+    // ---------------------------
     const btn = document.getElementById("menuBtn");
     const menu = document.getElementById("mobileMenu");
 
@@ -413,43 +466,124 @@
       });
     });
 
-    // Calendly popup
-    const calendlyBtn = document.getElementById("calendlyBtn");
-    calendlyBtn.addEventListener("click", () => {
-      if (window.Calendly && typeof window.Calendly.initPopupWidget === "function") {
-        window.Calendly.initPopupWidget({ url: "https://calendly.com/sebastian-vertexautomation/30min" });
-      } else {
-        window.open("https://calendly.com/sebastian-vertexautomation/30min", "_blank", "noopener,noreferrer");
-      }
-    });
+    // ---------------------------
+    // Cookie consent (localStorage)
+    // ---------------------------
+    const CONSENT_KEY = "vertex_cookie_consent"; // values: "all" | "essential" | "reject"
+    const cookieBanner = document.getElementById("cookieBanner");
+    const cookieAccept = document.getElementById("cookieAccept");
+    const cookieEssential = document.getElementById("cookieEssential");
+    const cookieReject = document.getElementById("cookieReject");
+    const cookieSettingsLink = document.getElementById("cookieSettingsLink");
 
-    // Modal helpers
-    const successModal = document.getElementById("successModal");
-
-    function openModal() {
-      successModal.classList.add("is-open");
-      successModal.setAttribute("aria-hidden", "false");
-      document.body.classList.add("modal-open");
+    function getConsent() {
+      return localStorage.getItem(CONSENT_KEY);
+    }
+    function setConsent(value) {
+      localStorage.setItem(CONSENT_KEY, value);
+      hideCookieBanner();
+      applyConsent();
+    }
+    function showCookieBanner() {
+      cookieBanner.classList.add("is-open");
+      cookieBanner.setAttribute("aria-hidden", "false");
+    }
+    function hideCookieBanner() {
+      cookieBanner.classList.remove("is-open");
+      cookieBanner.setAttribute("aria-hidden", "true");
     }
 
-    function closeModal() {
-      successModal.classList.remove("is-open");
-      successModal.setAttribute("aria-hidden", "true");
+    // Calendly assets loader (only if consent = "all")
+    let calendlyLoaded = false;
+    function loadCalendlyAssets() {
+      if (calendlyLoaded) return;
+      calendlyLoaded = true;
+
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = "https://assets.calendly.com/assets/external/widget.css";
+      document.head.appendChild(link);
+
+      const script = document.createElement("script");
+      script.src = "https://assets.calendly.com/assets/external/widget.js";
+      script.async = true;
+      document.body.appendChild(script);
+    }
+
+    function applyConsent() {
+      const consent = getConsent();
+
+      // We do not run analytics on this site by default.
+      // Non-essential: Calendly widget (it may set cookies).
+      if (consent === "all") {
+        loadCalendlyAssets();
+      }
+    }
+
+    // first visit
+    if (!getConsent()) showCookieBanner();
+    applyConsent();
+
+    cookieAccept.addEventListener("click", () => setConsent("all"));
+    cookieEssential.addEventListener("click", () => setConsent("essential"));
+    cookieReject.addEventListener("click", () => setConsent("reject"));
+
+    cookieSettingsLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      showCookieBanner();
+    });
+
+    // ---------------------------
+    // Calendly button behaviour
+    // ---------------------------
+    const calendlyBtn = document.getElementById("calendlyBtn");
+    calendlyBtn.addEventListener("click", () => {
+      const consent = getConsent();
+      const url = "https://calendly.com/sebastian-vertexautomation/30min";
+
+      // If user allowed non-essential cookies, use popup widget.
+      if (consent === "all" && window.Calendly && typeof window.Calendly.initPopupWidget === "function") {
+        window.Calendly.initPopupWidget({ url });
+        return;
+      }
+
+      // Otherwise open Calendly in a new tab (no widget cookies on your site).
+      window.open(url, "_blank", "noopener,noreferrer");
+    });
+
+    // ---------------------------
+    // Success Modal (Formspree)
+    // ---------------------------
+    const successModal = document.getElementById("successModal");
+
+    function openModal(modalEl) {
+      modalEl.classList.add("is-open");
+      modalEl.setAttribute("aria-hidden", "false");
+      document.body.classList.add("modal-open");
+    }
+    function closeModal(modalEl) {
+      modalEl.classList.remove("is-open");
+      modalEl.setAttribute("aria-hidden", "true");
       document.body.classList.remove("modal-open");
     }
 
-    successModal.addEventListener("click", (e) => {
-      const target = e.target;
-      if (target && target.dataset && target.dataset.close === "true") closeModal();
-    });
+    function attachModalClose(modalEl) {
+      modalEl.addEventListener("click", (e) => {
+        const target = e.target;
+        if (target && target.dataset && target.dataset.close === "true") closeModal(modalEl);
+      });
+    }
+    attachModalClose(successModal);
 
+    // ESC closes any open modal
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && successModal.classList.contains("is-open")) closeModal();
+      if (e.key !== "Escape") return;
+      [successModal, legalModal].forEach(m => {
+        if (m.classList.contains("is-open")) closeModal(m);
+      });
     });
 
-    // Formspree AJAX submit
     const contactForm = document.getElementById("contactForm");
-
     contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -469,7 +603,7 @@
 
         if (res.ok) {
           contactForm.reset();
-          openModal();
+          openModal(successModal);
         } else {
           alert("Something went wrong sending your message. Please try again or email sebastian@vertexautomation.ie.");
         }
@@ -481,7 +615,194 @@
       }
     });
 
-    // --- Smarter AI-like chat (frontend, rule-based) ---
+    // ---------------------------
+    // Legal modal content (Privacy / Terms / Cookies)
+    // ---------------------------
+    const legalModal = document.getElementById("legalModal");
+    attachModalClose(legalModal);
+
+    const legalTitle = document.getElementById("legalTitle");
+    const legalContent = document.getElementById("legalContent");
+
+    const updatedDate = new Date().toISOString().slice(0, 10);
+
+    const LEGAL = {
+      privacy: {
+        title: "Privacy Policy",
+        html: `
+          <p class="note"><b>Last updated:</b> ${updatedDate}</p>
+
+          <p>
+            This Privacy Policy explains how Vertex Construction Automation (“Vertex”, “we”, “us”) collects and uses personal
+            data when you visit this website or contact us.
+          </p>
+
+          <h4>1. Who we are</h4>
+          <p>
+            Data controller: Vertex Construction Automation (Ireland). Contact: <span class="mono">sebastian@vertexautomation.ie</span>.
+          </p>
+
+          <h4>2. Personal data we collect</h4>
+          <ul>
+            <li><b>Contact data</b>: name, email, company/trade and your message (when you use the contact form or email us).</li>
+            <li><b>Booking data</b>: when you book via Calendly, Calendly may collect information needed to schedule the meeting.</li>
+            <li><b>Technical data</b>: basic logs may be processed by hosting providers to deliver the website (e.g. IP address, device/browser info).</li>
+          </ul>
+
+          <h4>3. How we use your data</h4>
+          <ul>
+            <li>To respond to enquiries and provide information about our pilot program.</li>
+            <li>To schedule calls/meetings and communicate with you.</li>
+            <li>To maintain security and performance of the website.</li>
+          </ul>
+
+          <h4>4. Legal basis (GDPR)</h4>
+          <ul>
+            <li><b>Legitimate interests</b>: responding to business enquiries and operating our services.</li>
+            <li><b>Consent</b>: where required for non-essential cookies / third-party widgets.</li>
+            <li><b>Contract steps</b>: where you ask us to provide a quote/pilot proposal.</li>
+          </ul>
+
+          <h4>5. Sharing and processors</h4>
+          <p>
+            We may use service providers to process data on our behalf, such as:
+          </p>
+          <ul>
+            <li><b>Formspree</b> (contact form processing)</li>
+            <li><b>Calendly</b> (appointment scheduling)</li>
+            <li><b>Email provider</b> (Google Workspace / Gmail) to communicate with you</li>
+            <li><b>Hosting/CDN</b> to deliver this website</li>
+          </ul>
+
+          <h4>6. International transfers</h4>
+          <p>
+            Some providers may process data outside the EEA. Where applicable, providers use safeguards such as Standard Contractual Clauses.
+          </p>
+
+          <h4>7. Retention</h4>
+          <p>
+            We keep contact messages as long as needed to respond and manage business communications, then delete or archive securely.
+          </p>
+
+          <h4>8. Your rights</h4>
+          <p>
+            You may request access, correction, deletion, restriction, objection, or portability (where applicable). Contact us at
+            <span class="mono">sebastian@vertexautomation.ie</span>.
+          </p>
+
+          <h4>9. Security</h4>
+          <p>
+            We take reasonable measures to protect data, but no method of transmission is 100% secure.
+          </p>
+
+          <h4>10. Updates</h4>
+          <p>
+            We may update this policy from time to time. The “Last updated” date will change accordingly.
+          </p>
+        `
+      },
+
+      terms: {
+        title: "Terms of Use",
+        html: `
+          <p class="note"><b>Last updated:</b> ${updatedDate}</p>
+
+          <p>
+            By using this website, you agree to these Terms of Use. If you do not agree, please do not use the site.
+          </p>
+
+          <h4>1. Website purpose</h4>
+          <p>
+            This website provides information about a pilot automation program for construction businesses in Ireland.
+            Content is for general information and may be updated at any time.
+          </p>
+
+          <h4>2. No professional advice</h4>
+          <p>
+            Information on this site does not constitute legal, financial, or professional advice. You should obtain appropriate advice for your situation.
+          </p>
+
+          <h4>3. Availability and accuracy</h4>
+          <p>
+            We aim to keep the site available and accurate, but we do not guarantee uninterrupted access or that information is always complete or error-free.
+          </p>
+
+          <h4>4. Third-party services</h4>
+          <p>
+            The site may link to or use third-party services (e.g. Calendly, Formspree). Their terms and policies apply when you use them.
+          </p>
+
+          <h4>5. Intellectual property</h4>
+          <p>
+            Website content, branding and design are owned by Vertex or its licensors. You may not copy or reuse them for commercial purposes without permission.
+          </p>
+
+          <h4>6. Limitation of liability</h4>
+          <p>
+            To the fullest extent permitted by law, Vertex is not liable for indirect or consequential losses arising from use of this site.
+          </p>
+
+          <h4>7. Governing law</h4>
+          <p>
+            These terms are governed by the laws of Ireland, and disputes are subject to the courts of Ireland.
+          </p>
+        `
+      },
+
+      cookies: {
+        title: "Cookie Policy",
+        html: `
+          <p class="note"><b>Last updated:</b> ${updatedDate}</p>
+
+          <p>
+            Cookies are small text files stored on your device. Some are necessary for the website to work; others are used by third-party tools.
+          </p>
+
+          <h4>1. Essential cookies</h4>
+          <p>
+            These are required for core functionality (e.g. remembering a preference such as cookie choice). The site may store your cookie preference in localStorage.
+          </p>
+
+          <h4>2. Non-essential cookies (third-party tools)</h4>
+          <p>
+            With “Accept all”, we may load third-party tools such as the Calendly booking widget, which can set cookies or similar technologies.
+          </p>
+
+          <h4>3. Your choices</h4>
+          <ul>
+            <li><b>Accept all</b>: allows non-essential third-party widgets.</li>
+            <li><b>Essentials only</b>: blocks non-essential widgets on this site.</li>
+            <li><b>Reject</b>: blocks non-essential widgets on this site.</li>
+          </ul>
+
+          <h4>4. Change settings</h4>
+          <p>
+            You can change your cookie choice anytime by clicking <b>Cookie settings</b> in the footer.
+          </p>
+
+          <h4>5. Contact</h4>
+          <p>
+            Questions? Email <span class="mono">sebastian@vertexautomation.ie</span>.
+          </p>
+        `
+      }
+    };
+
+    document.querySelectorAll("[data-legal]").forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        const key = link.dataset.legal;
+        const item = LEGAL[key];
+        if (!item) return;
+        legalTitle.textContent = item.title;
+        legalContent.innerHTML = item.html;
+        openModal(legalModal);
+      });
+    });
+
+    // ---------------------------
+    // Smarter AI-like chat
+    // ---------------------------
     const chatFab = document.getElementById("chatFab");
     const chatWidget = document.getElementById("chatWidget");
     const chatClose = document.getElementById("chatClose");
@@ -521,67 +842,66 @@
       const phoneLike = raw.match(/(\+?\d[\d\s().-]{7,}\d)/);
 
       if (raw.length <= 3) {
-        return "No problem — could you tell me what you’d like help with (pricing, timeline, follow-ups, or booking a call)?";
+        return "No problem — what do you need help with (pricing, timeline, follow-ups, or booking a call)?";
       }
 
       if (has(["book", "call", "meeting", "calendly", "schedule", "appointment"])) {
         unknownCount = 0;
-        return "You can book a call using the Calendly button in this section. If you prefer, tell me what day/time suits you and I’ll suggest the best next step.";
+        return "You can book using the Calendly button. If you rejected non-essential cookies, the booking opens in a new tab. What day/time suits you best?";
       }
 
       if (has(["price", "cost", "pricing", "how much", "fee", "budget"])) {
         unknownCount = 0;
-        return "Pilot implementation starts from €900. Final pricing depends on your enquiry volume and where leads come from (email/website/messages). If you tell me your trade and how you receive enquiries today, I can estimate the best setup.";
+        return "Pilot implementation starts from €900. Final price depends on enquiry volume and where leads come from (email/website/messages). What trade are you in, and how do enquiries come in today?";
       }
 
       if (has(["timeline", "how long", "time", "days", "weeks", "go live", "implementation"])) {
         unknownCount = 0;
-        return "Most pilots go live in 7–14 days. Week 1 is audit + build. Week 2 is testing + launch. If you already have templates and a clear process, it can be quicker.";
+        return "Most pilots go live in 7–14 days. Week 1: audit + build. Week 2: testing + launch. If you already have templates and a clear process, it can be faster.";
       }
 
       if (has(["what do you do", "services", "offer", "pilot", "automation", "vertex"])) {
         unknownCount = 0;
-        return "Vertex helps construction businesses reply faster to quote enquiries, send consistent follow-ups, and keep everything organised in one simple pipeline (so fewer leads get missed).";
+        return "Vertex helps construction businesses reply faster to quote enquiries, run consistent follow-ups, and keep everything organised in one pipeline so fewer leads get missed.";
       }
 
       if (has(["follow up", "follow-up", "no reply", "ghost", "missed", "slow reply", "response time"])) {
         unknownCount = 0;
-        return "This is exactly what the pilot fixes: instant acknowledgement + qualifying questions, then an automated Day 3 / Day 7 follow-up sequence, and a pipeline view so you always know what’s open, won or lost.";
+        return "That’s exactly the problem we solve: instant acknowledgement + qualifying questions, automated Day 3 / Day 7 follow-ups, and a pipeline view (New → Won/Lost).";
       }
 
       if (has(["gmail", "google", "sheets", "excel", "crm", "hubspot", "pipedrive", "salesforce", "outlook"])) {
         unknownCount = 0;
-        return "We can start lightweight with Gmail + Google Sheets (no heavy software). If you already use a CRM (HubSpot/Pipedrive/etc.), we can integrate your enquiry flow into it instead.";
+        return "We can start lightweight with Gmail + Google Sheets (no heavy software). If you already use a CRM (HubSpot/Pipedrive/etc.), we can integrate into that instead.";
       }
 
       if (has(["quote", "pdf", "template", "generator", "draft"])) {
         unknownCount = 0;
-        return "We can add a Quote Draft Generator module: you fill a simple input and it produces a consistent quote draft/PDF structure (scope, exclusions, basic formatting). It’s optional and only added if it fits your workflow.";
+        return "We can add a Quote Draft Generator module: you enter a few details and it creates a consistent quote draft/PDF structure (scope, exclusions, formatting). Optional — only if it fits your workflow.";
       }
 
       if (has(["report", "kpi", "weekly", "dashboard", "metrics"])) {
         unknownCount = 0;
-        return "Yes — we can add weekly reporting: a simple snapshot of enquiries, quotes sent, wins/losses, and follow-up status. It helps spot what’s working and what’s leaking.";
+        return "Yes — we can add weekly reporting: enquiries, quotes, wins/losses, and follow-up status. It helps spot leaks and improve conversion.";
       }
 
       if (has(["dublin", "ireland", "kildare", "cork", "galway", "limerick", "nationwide"])) {
         unknownCount = 0;
-        return "The pilot is designed for contractors in Dublin and across Ireland. Setup can be fully remote, and we’ll tailor it to your current enquiry process.";
+        return "The pilot is designed for contractors in Dublin and across Ireland. Setup can be fully remote and tailored to your current workflow.";
       }
 
       if (emailLike || phoneLike) {
         unknownCount = 0;
-        return "Thanks — noted. If you’d like, tell me your trade and how enquiries come in (email/website/messages). Then the best next step is a short audit call to map the workflow.";
+        return "Thanks — noted. What trade are you in and where do enquiries arrive (website form, email, WhatsApp/Facebook, referrals)?";
       }
 
       const broad = has(["help", "tell me", "can you", "how", "what", "why"]) && raw.length < 25;
       if (broad) {
         unknownCount = 0;
-        return "Sure — to point you in the right direction, what’s your trade and where do quote enquiries come from today (website form, email, Facebook/WhatsApp, or referrals)?";
+        return "Sure — quick question first: what trade are you in, and how do quote enquiries come in today (website, email, messages, referrals)?";
       }
 
       unknownCount += 1;
-
       if (unknownCount >= 2) {
         unknownCount = 0;
         return `I might not have enough detail to answer that accurately. For specific questions, please email Sebastian at <span class="mono">sebastian@vertexautomation.ie</span>.`;
@@ -610,8 +930,7 @@
 
       addMsg("user", msg);
       chatText.value = "";
-
-      setTimeout(() => addMsg("bot", botReply(msg)), 280);
+      setTimeout(() => addMsg("bot", botReply(msg)), 260);
     });
   </script>
 </body>
