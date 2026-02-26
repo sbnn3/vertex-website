@@ -1,117 +1,68 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Vertex Automation logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1320 260" role="img" aria-label="Vertex Automation">
   <defs>
-    <!-- Blues for the V + text -->
-    <linearGradient id="vxBlueDeep" x1="0" y1="0" x2="1" y2="1">
+    <linearGradient id="vxGrad" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0B63F6"/>
-      <stop offset="0.55" stop-color="#0A3F9C"/>
-      <stop offset="1" stop-color="#082B5D"/>
+      <stop offset="1" stop-color="#10B981"/>
     </linearGradient>
 
-    <linearGradient id="vxBlueText" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#0E62D8"/>
-      <stop offset="0.55" stop-color="#0A3D8D"/>
-      <stop offset="1" stop-color="#07244E"/>
+    <linearGradient id="vxBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0A2F66"/>
+      <stop offset="1" stop-color="#0B63F6"/>
     </linearGradient>
 
-    <linearGradient id="vxBlueEdge" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0A2E66"/>
-      <stop offset="1" stop-color="#061B3A"/>
-    </linearGradient>
-
-    <linearGradient id="vxGray" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#D6DCE6"/>
-      <stop offset="1" stop-color="#8D98A8"/>
-    </linearGradient>
-
-    <linearGradient id="vxOrange" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFB020"/>
-      <stop offset="1" stop-color="#F59E0B"/>
-    </linearGradient>
-
-    <!-- Soft shadow -->
-    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#000000" flood-opacity="0.25"/>
-    </filter>
-
-    <!-- Small text shadow -->
-    <filter id="tinyShadow" x="-30%" y="-30%" width="160%" height="160%">
-      <feDropShadow dx="0" dy="4" stdDeviation="3" flood-color="#000000" flood-opacity="0.22"/>
-    </filter>
-
-    <!-- Slight bevel-ish highlight -->
-    <linearGradient id="bevelHighlight" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
-      <stop offset="0.35" stop-color="#FFFFFF" stop-opacity="0.12"/>
-      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
-    </linearGradient>
+    <style>
+      .word { font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; }
+    </style>
   </defs>
 
-  <!-- GROUP: everything centered -->
-  <g transform="translate(70,70)">
+  <!-- MARK -->
+  <g transform="translate(30,22)">
+    <!-- V stroke -->
+    <path d="M72 50 L138 196 L206 50"
+          fill="none"
+          stroke="url(#vxBlue)"
+          stroke-width="26"
+          stroke-linecap="round"
+          stroke-linejoin="round"/>
 
-    <!-- ===== MARK (left V) ===== -->
-    <g filter="url(#softShadow)" transform="translate(0,40)">
-      <!-- Main blue outer -->
-      <path d="M160 10 L285 10 L385 165 L265 335 L160 190 Z"
-            fill="url(#vxBlueDeep)"/>
+    <!-- inner highlight -->
+    <path d="M95 62 L138 160 L182 62"
+          fill="none"
+          stroke="url(#vxGrad)"
+          stroke-width="10"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          opacity="0.95"/>
 
-      <!-- Inner gray face -->
-      <path d="M265 120 L338 50 L315 200 L255 335 L225 335 Z"
-            fill="url(#vxGray)"/>
+    <!-- automation nodes -->
+    <circle cx="72" cy="50" r="10" fill="#0B63F6"/>
+    <circle cx="206" cy="50" r="10" fill="#10B981"/>
+    <circle cx="138" cy="196" r="10" fill="#0A2F66"/>
 
-      <!-- Orange top wedge -->
-      <path d="M300 22 L420 22 L355 110 Z"
-            fill="url(#vxOrange)"/>
+    <!-- micro connector hints -->
+    <path d="M82 55 L110 80" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+    <path d="M196 55 L168 80" stroke="#94A3B8" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
+  </g>
 
-      <!-- Dark edge to mimic depth -->
-      <path d="M160 190 L265 335 L255 335 L160 190 Z"
-            fill="url(#vxBlueEdge)" opacity="0.65"/>
+  <!-- WORDMARK -->
+  <g transform="translate(300,0)">
+    <!-- VERTEX -->
+    <text class="word" x="0" y="142"
+          font-size="112"
+          font-weight="900"
+          letter-spacing="1"
+          fill="#0A2F66">VERTEX</text>
 
-      <!-- White diagonal cut -->
-      <path d="M285 10 L322 10 L355 110 L305 180 L265 120 Z"
-            fill="#FFFFFF" opacity="0.92"/>
-
-      <!-- subtle highlight overlay -->
-      <path d="M175 25 L275 25 L360 165 L260 310 L175 175 Z"
-            fill="url(#bevelHighlight)"/>
+    <!-- AUTOMATION (centered under VERTEX) -->
+    <!-- This value is tuned to sit centered under the VERTEX word visually -->
+    <g transform="translate(250,0)">
+      <text class="word"
+            x="0" y="205"
+            text-anchor="middle"
+            font-size="40"
+            font-weight="700"
+            letter-spacing="8"
+            fill="#64748B">AUTOMATION</text>
     </g>
-
-    <!-- ===== WORDMARK ===== -->
-    <g transform="translate(470,0)">
-      <!-- “VERTEX” (3D-ish by stacking) -->
-      <!-- back layer -->
-      <text x="2" y="220"
-            font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-            font-size="170"
-            font-weight="900"
-            letter-spacing="2"
-            fill="#061A39"
-            opacity="0.65">VERTEX</text>
-
-      <!-- front layer -->
-      <text x="0" y="210"
-            font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-            font-size="170"
-            font-weight="900"
-            letter-spacing="2"
-            fill="url(#vxBlueText)"
-            filter="url(#tinyShadow)">VERTEX</text>
-
-      <!-- AUTOMATION line + text centered -->
-      <g transform="translate(365,0)">
-        <line x1="-285" y1="285" x2="-110" y2="285" stroke="#9AA3AF" stroke-width="6" stroke-linecap="round"/>
-        <line x1="110" y1="285" x2="285" y2="285" stroke="#9AA3AF" stroke-width="6" stroke-linecap="round"/>
-
-        <text x="0" y="312"
-              text-anchor="middle"
-              font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-              font-size="56"
-              font-weight="700"
-              letter-spacing="10"
-              fill="#9AA3AF"
-              filter="url(#tinyShadow)">AUTOMATION</text>
-      </g>
-    </g>
-
   </g>
 </svg>
