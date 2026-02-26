@@ -1,47 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="Vertex Automation logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 220" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Vertex Automation logo">
   <defs>
     <linearGradient id="vxBlue" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0B63F6"/>
       <stop offset="1" stop-color="#0A2F66"/>
     </linearGradient>
-
     <linearGradient id="vxGray" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#B9C1CC"/>
       <stop offset="1" stop-color="#7D8794"/>
     </linearGradient>
   </defs>
 
-  <!-- MARK -->
-  <g transform="translate(30,20)">
-    <!-- left blue wing -->
-    <polygon points="40,20 160,20 230,150 150,250 40,120"
-             fill="url(#vxBlue)"/>
-
+  <!-- MARK (left) -->
+  <g transform="translate(18,20)">
+    <!-- blue body -->
+    <polygon points="30,10 135,10 205,115 130,195 30,105" fill="url(#vxBlue)"/>
     <!-- orange top -->
-    <polygon points="175,30 305,30 230,125"
-             fill="#F59E0B"/>
-
-    <!-- gray lower -->
-    <polygon points="230,125 305,30 275,160 195,250 150,250"
-             fill="url(#vxGray)"/>
+    <polygon points="148,20 255,20 205,95" fill="#F59E0B"/>
+    <!-- gray shadow -->
+    <polygon points="205,95 255,20 232,130 160,195 130,195" fill="url(#vxGray)"/>
+    <!-- white cut -->
+    <polygon points="135,10 170,10 205,95 170,145 135,95" fill="#ffffff" opacity="0.95"/>
   </g>
 
-  <!-- TEXT -->
-  <g transform="translate(340,0)">
-    <text x="0" y="145"
-          font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-          font-size="120"
-          font-weight="800"
-          letter-spacing="2"
-          fill="#0A2F66">VERTEX</text>
+  <!-- TEXT (right) -->
+  <g transform="translate(300,0)">
+    <!-- VERTEX -->
+    <text x="0" y="120"
+      font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+      font-size="104"
+      font-weight="900"
+      letter-spacing="2"
+      fill="#0A2F66">VERTEX</text>
 
-    <line x1="0" y1="208" x2="80" y2="208" stroke="#9AA3AF" stroke-width="4" stroke-linecap="round"/>
-    <text x="95" y="222"
-          font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
-          font-size="48"
-          font-weight="600"
-          letter-spacing="10"
-          fill="#9AA3AF">AUTOMATION</text>
-    <line x1="605" y1="208" x2="710" y2="208" stroke="#9AA3AF" stroke-width="4" stroke-linecap="round"/>
+    <!-- AUTOMATION centered under VERTEX with side lines -->
+    <!-- We center to a fixed anchor (approx center of VERTEX word) -->
+    <g transform="translate(300,0)">
+      <line x1="-250" y1="158" x2="-95" y2="158" stroke="#9AA3AF" stroke-width="4" stroke-linecap="round"/>
+      <line x1="95" y1="158" x2="250" y2="158" stroke="#9AA3AF" stroke-width="4" stroke-linecap="round"/>
+
+      <text x="0" y="176"
+        text-anchor="middle"
+        font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+        font-size="36"
+        font-weight="700"
+        letter-spacing="8"
+        fill="#9AA3AF">AUTOMATION</text>
+    </g>
   </g>
 </svg>
