@@ -55,7 +55,7 @@
 
     <!-- AUTOMATION (centered under VERTEX) -->
     <!-- This value is tuned to sit centered under the VERTEX word visually -->
-    <g transform="translate(250,0)">
+    <g transform="translate(240,0)">
       <text class="word"
             x="0" y="205"
             text-anchor="middle"
