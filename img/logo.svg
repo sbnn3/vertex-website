@@ -1,23 +1,47 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" role="img" aria-label="Vertex Construction Automation">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-label="Vertex Automation logo">
   <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#0b63f6"/>
-      <stop offset="1" stop-color="#10b981"/>
+    <linearGradient id="vxBlue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B63F6"/>
+      <stop offset="1" stop-color="#0A2F66"/>
+    </linearGradient>
+
+    <linearGradient id="vxGray" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#B9C1CC"/>
+      <stop offset="1" stop-color="#7D8794"/>
     </linearGradient>
   </defs>
 
-  <!-- ICON (tight) -->
-  <g transform="translate(0,10)">
-    <path d="M20 10 L70 100 L120 10" fill="none" stroke="url(#g)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M20 10 L70 55 L120 10" fill="none" stroke="#10b981" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
-    <circle cx="20" cy="10" r="9" fill="#0b63f6"/>
-    <circle cx="120" cy="10" r="9" fill="#0b63f6"/>
-    <circle cx="70" cy="100" r="9" fill="#10b981"/>
+  <!-- MARK -->
+  <g transform="translate(30,20)">
+    <!-- left blue wing -->
+    <polygon points="40,20 160,20 230,150 150,250 40,120"
+             fill="url(#vxBlue)"/>
+
+    <!-- orange top -->
+    <polygon points="175,30 305,30 230,125"
+             fill="#F59E0B"/>
+
+    <!-- gray lower -->
+    <polygon points="230,125 305,30 275,160 195,250 150,250"
+             fill="url(#vxGray)"/>
   </g>
 
-  <!-- TEXT (big + readable) -->
-  <g transform="translate(150,18)">
-    <text x="0" y="56" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial" font-size="58" font-weight="900" fill="#0f172a">Vertex</text>
-    <text x="0" y="94" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial" font-size="22" font-weight="700" fill="#475569">Construction Automation</text>
+  <!-- TEXT -->
+  <g transform="translate(340,0)">
+    <text x="0" y="145"
+          font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+          font-size="120"
+          font-weight="800"
+          letter-spacing="2"
+          fill="#0A2F66">VERTEX</text>
+
+    <line x1="0" y1="208" x2="80" y2="208" stroke="#9AA3AF" stroke-width="4" stroke-linecap="round"/>
+    <text x="95" y="222"
+          font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial"
+          font-size="48"
+          font-weight="600"
+          letter-spacing="10"
+          fill="#9AA3AF">AUTOMATION</text>
+    <line x1="605" y1="208" x2="710" y2="208" stroke="#9AA3AF" stroke-width="4" stroke-linecap="round"/>
   </g>
 </svg>
