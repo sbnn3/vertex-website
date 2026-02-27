@@ -279,6 +279,7 @@ h2{font-size:30px;margin:0 0 8px}
 
 /* Pricing */
 .pricing{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.pricing-3{grid-template-columns:repeat(3,1fr)}
 .price .money{font-size:28px;font-weight:900;margin:8px 0 10px}
 .tag{margin:0 0 10px;color:var(--muted)}
 .featured{
@@ -339,14 +340,7 @@ button{border:0;cursor:pointer}
   margin-top:10px;
 }
 
-/* Center Send button */
-.form-actions{
-  display:flex;
-  justify-content:center;
-  margin-top:12px;
-}
-
-/* ✅ Consent checkbox + error */
+/* ✅ NEW: Consent (GDPR) */
 .consent{
   display:flex;
   gap:10px;
@@ -385,7 +379,14 @@ button{border:0;cursor:pointer}
   font-size:13px;
 }
 
-/* ✅ Contact alignment on desktop */
+/* ✅ NEW: Center Send button */
+.form-actions{
+  display:flex;
+  justify-content:center;
+  margin-top:12px;
+}
+
+/* ✅ Contact alignment on desktop (raise left column slightly) */
 .contact-grid{align-items:stretch}
 .contact-left{display:flex;flex-direction:column;gap:14px}
 .contact-right{align-self:stretch}
@@ -394,7 +395,7 @@ button{border:0;cursor:pointer}
   .contact-left h2{margin-top:0}
 }
 
-/* Footer */
+/* Footer (modern / no big buttons) */
 .footer{
   border-top:1px solid var(--line);
   padding:18px 0;
@@ -428,6 +429,7 @@ button{border:0;cursor:pointer}
 }
 .footer-link:hover{color:var(--text);text-decoration:underline}
 .sep{color:#94a3b8;opacity:.9}
+
 .mono{font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
 
 /* --- Modals --- */
@@ -544,12 +546,13 @@ body.modal-open footer{filter: blur(6px)}
   backdrop-filter: blur(10px);
   background: rgba(255,255,255,0.65);
 }
+
 .chat-widget{
   position: fixed;
   right: 18px;
   bottom: 86px;
   width: min(380px, calc(100% - 36px));
-  height: 520px;
+  height: min(620px, calc(100vh - 140px));
   max-height: calc(100vh - 140px);
   z-index: 9999;
   border-radius: 18px;
@@ -610,6 +613,8 @@ body.modal-open footer{filter: blur(6px)}
   background: rgba(255,255,255,0.85);
 }
 .chat-msg.user .bubble{background: rgba(0,0,0,0.06)}
+
+/* ✅ keep input visible */
 .chat-input{
   flex: 0 0 auto;
   display:flex;
@@ -618,6 +623,8 @@ body.modal-open footer{filter: blur(6px)}
   border-top:1px solid rgba(0,0,0,0.08);
   background: rgba(255,255,255,0.75);
   padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  position: sticky;
+  bottom: 0;
 }
 .chat-input input{
   flex:1;
@@ -685,11 +692,11 @@ body.modal-open footer{filter: blur(6px)}
 
 @media (max-width: 420px){
   .chat-widget{
-    height: 520px;
-    max-height: calc(100vh - 110px);
     bottom: 78px;
     right: 12px;
     width: calc(100% - 24px);
+    height: min(640px, calc(100vh - 120px));
+    max-height: calc(100vh - 120px);
   }
   .chat-fab{right: 12px;bottom: 12px}
 }
