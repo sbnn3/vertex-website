@@ -323,7 +323,7 @@
         <!-- RIGHT -->
         <div class="card contact-right">
           <h3>Send a message</h3>
-          <form id="contactForm" action="https://formspree.io/f/mjgepavg" method="POST">
+          <form id="contactForm" action="https://formspree.io/f/mjgepavg" method="POST" novalidate>
             <label>Name
               <input name="name" autocomplete="name" required />
             </label>
@@ -340,7 +340,7 @@
               <textarea name="message" rows="6" required></textarea>
             </label>
 
-            <!-- ✅ GDPR CONSENT (REQUIRED) -->
+            <!-- ✅ REQUIRED GDPR CONSENT (custom validation, no browser default popup) -->
             <div class="consent">
               <input type="checkbox" id="consent" name="consent" value="yes" />
               <label for="consent" class="consent-label">
@@ -349,7 +349,11 @@
               </label>
             </div>
 
-            <center></center><button class="btn" type="submit">Send</button></center>
+            <p class="consent-error" id="consentError" role="alert" aria-live="polite"></p>
+
+            <div class="form-actions">
+              <button class="btn" type="submit">Send</button>
+            </div>
           </form>
         </div>
       </div>
@@ -567,10 +571,38 @@
       [successModal, legalModal].forEach(m => m.classList.contains("is-open") && closeModal(m));
     });
 
-    // Formspree AJAX submit
+    // ✅ Custom consent validation (no browser default popup)
     const contactForm = document.getElementById("contactForm");
+    const consentCheckbox = document.getElementById("consent");
+    const consentError = document.getElementById("consentError");
+
+    function setConsentError(msg){
+      consentError.textContent = msg || "";
+      consentError.style.display = msg ? "block" : "none";
+    }
+    consentCheckbox.addEventListener("change", () => {
+      if (consentCheckbox.checked) setConsentError("");
+    });
+
+    // Formspree AJAX submit
     contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      // still allow browser required for other fields, but no default popup:
+      // we check manually for consent, and let HTML handle the rest naturally via required.
+      if (!consentCheckbox.checked){
+        setConsentError("Please confirm you agree to the Privacy Policy before sending.");
+        consentCheckbox.focus();
+        return;
+      }
+      setConsentError("");
+
+      // Extra: ensure required fields exist (since we used novalidate)
+      if (!contactForm.checkValidity()){
+        contactForm.reportValidity(); // shows native messages for name/email/message
+        return;
+      }
+
       const formData = new FormData(contactForm);
       const submitBtn = contactForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.textContent;
