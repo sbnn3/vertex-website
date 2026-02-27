@@ -614,6 +614,37 @@ body.modal-open footer{filter: blur(6px)}
   .contact-left{margin-top:0}
 }
 
+/* Consent checkbox (GDPR) */
+.consent{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  margin:12px 0 14px;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background: rgba(255,255,255,.7);
+}
+.consent input{
+  width:auto;
+  margin-top:3px;
+  flex:0 0 auto;
+}
+.consent-label{
+  margin:0;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.35;
+}
+.consent-label a{
+  color:var(--primary);
+  font-weight:800;
+  text-decoration:none;
+}
+.consent-label a:hover{
+  text-decoration:underline;
+}
+
 @media (max-width: 640px){
   h1{font-size:34px}
   .links{display:none}
