@@ -107,9 +107,6 @@
               <li>Simple pipeline dashboard + handover</li>
             </ul>
             <p class="note">We can start using Gmail + Google Sheets (no heavy software required).</p>
-            <p class="note">
-              <b>After launch:</b> the system keeps running independently. Most companies choose a monthly support plan for maintenance and improvements.
-            </p>
           </div>
 
           <div class="card">
@@ -262,58 +259,25 @@
       <div class="container">
         <div class="section-head">
           <h2>Pricing</h2>
-          <p class="sub">Simple pricing to get live fast — with optional monthly support after launch.</p>
+          <p class="sub">Pilot pricing while the workflow is being refined.</p>
         </div>
 
-        <div class="pricing pricing-3">
+        <div class="pricing">
           <div class="card price featured">
             <h3>Pilot Implementation</h3>
-            <p class="tag">One-time setup</p>
-            <div class="money">From €900</div>
+            <p class="tag">Limited early-stage availability</p>
+            <div class="money">Starting from €900</div>
             <ul class="check">
               <li>Discovery call + workflow mapping</li>
               <li>System setup & configuration</li>
               <li>Templates + follow-up logic</li>
-              <li>Testing + basic training</li>
+              <li>Basic training session</li>
             </ul>
-            <p class="note" style="margin-top:12px">
-              Built to run independently after launch.
-            </p>
-          </div>
-
-          <div class="card price">
-            <h3>Essential Support</h3>
-            <p class="tag">Monthly (recommended)</p>
-            <div class="money">From €250/mo</div>
-            <ul class="check">
-              <li>Maintenance & reliability checks</li>
-              <li>Small updates to templates/questions</li>
-              <li>Fixes if something breaks/changes</li>
-              <li>Email support</li>
-            </ul>
-            <p class="note" style="margin-top:12px">
-              Best for owners who want peace of mind.
-            </p>
-          </div>
-
-          <div class="card price">
-            <h3>Growth Support</h3>
-            <p class="tag">Monthly (optimisation)</p>
-            <div class="money">From €400/mo</div>
-            <ul class="check">
-              <li>Everything in Essential</li>
-              <li>Ongoing optimisation & improvements</li>
-              <li>Reporting/KPIs and pipeline upgrades</li>
-              <li>Priority response</li>
-            </ul>
-            <p class="note" style="margin-top:12px">
-              Best for teams receiving steady enquiry volume.
-            </p>
           </div>
         </div>
 
-        <p class="note center" style="margin-top:14px">
-          Monthly support is optional — but most companies choose it after launch so the system stays maintained as the business grows.
+        <p class="note center">
+          Optional modules can be added if needed after the initial pilot is live.
         </p>
       </div>
     </section>
@@ -375,6 +339,15 @@
             <label>What do you want to improve?
               <textarea name="message" rows="6" required></textarea>
             </label>
+
+            <!-- ✅ GDPR CONSENT (REQUIRED) -->
+            <div class="consent">
+              <input type="checkbox" id="consent" name="consent" value="yes" required />
+              <label for="consent" class="consent-label">
+                I agree that my details will be used to respond to my enquiry in line with the
+                <a href="#" data-legal="privacy">Privacy Policy</a>.
+              </label>
+            </div>
 
             <button class="btn" type="submit">Send</button>
           </form>
@@ -768,79 +741,34 @@
     function botReply(userMsg){
       const raw = userMsg.trim();
       const m = raw.toLowerCase();
-      const hasAny = (arr) => arr.some(k => m.includes(k));
-      const has = (...arr) => hasAny(arr.flat());
+      const containsAny = (arr) => arr.some(k => m.includes(k));
+      const has = (...arr) => containsAny(arr.flat());
 
-      const greet = ["hi","hello","hey","hiya","good morning","good afternoon","good evening"];
-      const thanks = ["thanks","thank you","cheers","appreciate"];
-      if (has(greet) && raw.length <= 20){
-        unknownCount = 0;
-        return "Hi — how can I help? You can ask about pricing, support plans, timelines, follow-ups, or booking a call.";
-      }
-      if (has(thanks)){
-        unknownCount = 0;
-        return "You’re welcome. If you’d like, tell me your trade and how enquiries come in today (website form / email / messages).";
-      }
-      if (raw.length <= 3){
-        return "No problem — what do you need help with (pricing, support, timeline, follow-ups, or booking a call)?";
-      }
+      if (raw.length <= 3) return "No problem — what do you need help with (pricing, timeline, follow-ups, or booking a call)?";
 
-      // Booking
       if (has(["book","call","meeting","calendly","schedule","appointment"])){
         unknownCount = 0;
-        return "You can book using the Calendly button in the ‘Book a call’ section. If you rejected non-essential cookies, it opens in a new tab. What day/time suits you best?";
+        return "You can book using the Calendly button. If you rejected non-essential cookies, it opens in a new tab. What day/time suits you best?";
       }
-
-      // Pricing / VAT / invoices
-      if (has(["vat","invoice","invoicing","receipt","tax","inclusive","exclusive"])){
+      if (has(["price","cost","pricing","how much","fee","budget"])){
         unknownCount = 0;
-        return "Pricing on the site is a guide. If you need a formal quote/invoice, we can confirm the exact scope and provide the correct invoice details on the call. Want to book a quick 15-minute audit call?";
+        return "Pilot implementation starts from €900. Final pricing depends on enquiry volume and sources (email/website/messages). What trade are you in, and how do enquiries come in today?";
       }
-      if (has(["price","cost","pricing","how much","fee","budget","quote"])){
+      if (has(["timeline","how long","days","weeks","go live","implementation"])){
         unknownCount = 0;
-        return "Pilot implementation starts from €900. After launch, most companies choose a monthly support plan (from €250/month) for maintenance and improvements. What trade are you in, and how do enquiries arrive today?";
+        return "Most pilots go live in 7–14 days. Week 1: audit + build. Week 2: testing + launch. If your process is already clear, it can be quicker.";
       }
-
-      // Support
-      if (has(["support","maintenance","ongoing","monthly","after launch","after setup","updates","changes"])){
+      if (has(["services","offer","pilot","automation","vertex","what do you do"])){
         unknownCount = 0;
-        return "After launch, the system can run independently — but most companies keep monthly support so it stays maintained as things change (templates, rules, email flow, reporting). Essential support starts from €250/month.";
+        return "Vertex helps construction businesses reply faster to quote enquiries, run consistent follow-ups, and keep everything organised in one pipeline so fewer leads get missed.";
       }
-
-      // Timeline
-      if (has(["timeline","how long","days","weeks","go live","implementation","setup time"])){
+      if (has(["follow up","follow-up","no reply","missed","slow reply","response time"])){
         unknownCount = 0;
-        return "Most pilots go live in 7–14 days. Week 1 is audit + build, week 2 is testing + launch. If your workflow is already clear, it can be quicker.";
+        return "We fix this with instant acknowledgement + qualifying questions, automated Day 3 / Day 7 follow-ups, and a pipeline view (New → Won/Lost).";
       }
-
-      // What it is / results
-      if (has(["services","offer","pilot","automation","vertex","what do you do","how does it work"])){
+      if (has(["gmail","google","sheets","crm","hubspot","pipedrive","outlook","excel"])){
         unknownCount = 0;
-        return "Vertex helps construction businesses reply faster to quote enquiries, run consistent follow-ups, and keep everything organised in one pipeline — so fewer leads get missed and more jobs get won.";
-      }
-
-      // Follow-ups / missed leads
-      if (has(["follow up","follow-up","no reply","missed","slow reply","response time","enquiry","inquiry","enquiries","inquiries"])){
-        unknownCount = 0;
-        return "We solve this with: (1) instant acknowledgement + key questions, (2) automated Day 3 / Day 7 follow-ups, and (3) a simple pipeline view (New → Won/Lost) so nothing gets forgotten.";
-      }
-
-      // Tools / integrations
-      if (has(["gmail","google","sheets","crm","hubspot","pipedrive","outlook","excel","zapier","make","forms","website form"])){
-        unknownCount = 0;
-        return "We can start lightweight with Gmail + Google Sheets (no heavy software). If you already use a CRM, we can plug into it or keep your pipeline in the system you already trust.";
-      }
-
-      // Location / coverage
-      if (has(["dublin","ireland","nationwide","remote","onsite","site visit","visit"])){
-        unknownCount = 0;
-        return "The pilot is designed for contractors in Dublin and across Ireland. Setup can be done remotely, and if needed we can arrange an on-site visit depending on location and scope.";
-      }
-
-      // Data / privacy
-      if (has(["gdpr","privacy","data","secure","security","confidential"])){
-        unknownCount = 0;
-        return "Good question. We only use your details to respond and schedule calls. Any third-party tools (like booking) are optional and controlled by cookie settings. For anything sensitive, you can email Sebastian directly at sebastian@vertexautomation.ie.";
+        return "We can start lightweight with Gmail + Google Sheets. If you already use a CRM, we can integrate into it instead.";
       }
 
       unknownCount += 1;
@@ -867,7 +795,7 @@
       if (!msg) return;
       addMsg("user", msg);
       chatText.value = "";
-      setTimeout(() => addMsg("bot", botReply(msg)), 240);
+      setTimeout(() => addMsg("bot", botReply(msg)), 260);
     });
   </script>
 </body>
