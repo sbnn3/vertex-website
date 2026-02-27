@@ -614,21 +614,19 @@ body.modal-open footer{filter: blur(6px)}
   .contact-left{margin-top:0}
 }
 
-/* Consent checkbox (GDPR) */
+/* Consent checkbox + error message */
 .consent{
   display:flex;
   gap:10px;
   align-items:flex-start;
-  margin:12px 0 14px;
-  padding:10px 12px;
-  border:1px solid var(--line);
-  border-radius:14px;
-  background: rgba(255,255,255,.7);
+  margin-top:12px;
+  padding-top:8px;
+  border-top:1px solid var(--line);
 }
 .consent input{
-  width:auto;
-  margin-top:3px;
-  flex:0 0 auto;
+  width:18px;
+  height:18px;
+  margin-top:2px;
 }
 .consent-label{
   margin:0;
@@ -638,11 +636,21 @@ body.modal-open footer{filter: blur(6px)}
 }
 .consent-label a{
   color:var(--primary);
-  font-weight:800;
   text-decoration:none;
+  font-weight:800;
 }
-.consent-label a:hover{
-  text-decoration:underline;
+.consent-label a:hover{ text-decoration:underline; }
+
+.consent-error{
+  display:none;
+  margin:10px 0 0;
+  padding:10px 12px;
+  border-radius:14px;
+  border:1px solid rgba(239,68,68,.25);
+  background: rgba(239,68,68,.08);
+  color:#991b1b;
+  font-weight:800;
+  font-size:13px;
 }
 
 @media (max-width: 640px){
