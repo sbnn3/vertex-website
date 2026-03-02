@@ -360,18 +360,14 @@
         <div class="card contact-right">
           <h3>Send a message</h3>
 
-          <!-- ✅ MAKE WEBHOOK FORM (replaces Formspree) -->
-          <form id="contactForm" novalidate>
+          <!-- ✅ Added novalidate so we can show custom consent message, while still using reportValidity for other fields -->
+          <form id="contactForm" action="https://formspree.io/f/mjgepavg" method="POST" novalidate>
             <label>Name
               <input name="name" autocomplete="name" required />
             </label>
 
             <label>Email
               <input type="email" name="email" autocomplete="email" required />
-            </label>
-
-            <label>Phone (optional)
-              <input name="phone" autocomplete="tel" inputmode="tel" />
             </label>
 
             <label>Company / Trade
@@ -628,9 +624,7 @@
       if (consentCheckbox.checked) setConsentError("");
     });
 
-    // ✅ Make Webhook submit (REPLACES FORMSPREE)
-    const MAKE_WEBHOOK_URL = "https://hook.eu1.make.com/p8lmidr5fb78dtimryt43wwejixbzs9y";
-
+    // Formspree AJAX submit
     contactForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -648,6 +642,7 @@
         return;
       }
 
+      const formData = new FormData(contactForm);
       const submitBtn = contactForm.querySelector('button[type="submit"]');
       const originalText = submitBtn.textContent;
 
@@ -655,25 +650,10 @@
       submitBtn.textContent = "Sending...";
 
       try{
-        const formData = new FormData(contactForm);
-
-        // Build a clean JSON payload for Make
-        const payload = {
-          name: (formData.get("name") || "").toString().trim(),
-          email: (formData.get("email") || "").toString().trim(),
-          phone: (formData.get("phone") || "").toString().trim(),
-          company: (formData.get("company") || "").toString().trim(),
-          message: (formData.get("message") || "").toString().trim(),
-          consent: (formData.get("consent") || "").toString().trim(),
-          source: "Website",
-          page: window.location.href,
-          submitted_at: new Date().toISOString()
-        };
-
-        const res = await fetch(MAKE_WEBHOOK_URL, {
+        const res = await fetch(contactForm.action, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: formData,
+          headers: { "Accept": "application/json" }
         });
 
         if (res.ok){
@@ -707,7 +687,7 @@
 
           <h4>2. Personal data we collect</h4>
           <ul>
-            <li><b>Contact data</b>: name, email, phone (if provided), company/trade and your message (contact form or email).</li>
+            <li><b>Contact data</b>: name, email, company/trade and your message (contact form or email).</li>
             <li><b>Booking data</b>: when you book via Calendly, Calendly may collect details needed to schedule the meeting.</li>
             <li><b>Technical data</b>: basic logs may be processed by hosting providers to deliver the website (e.g. IP address, device/browser info).</li>
           </ul>
@@ -728,8 +708,8 @@
 
           <h4>5. Sharing and processors</h4>
           <ul>
-            <li><b>Make.com</b> (automation / webhook processing)</li>
-            <li><b>Google Sheets</b> (pipeline storage)</li>
+            <li><b>Formspree</b> (contact form processing)</li>
+            <li><b>Calendly</b> (appointment scheduling)</li>
             <li><b>Email provider</b> (Google Workspace / Gmail)</li>
             <li><b>Hosting/CDN</b> to deliver this website</li>
           </ul>
@@ -757,7 +737,7 @@
           <p>Information on this site does not constitute legal, financial, or professional advice.</p>
 
           <h4>3. Third-party services</h4>
-          <p>The site may link to or use third-party services (e.g. Calendly). Their terms and policies apply when you use them.</p>
+          <p>The site may link to or use third-party services (e.g. Calendly, Formspree). Their terms and policies apply when you use them.</p>
 
           <h4>4. Intellectual property</h4>
           <p>Website content, branding and design are owned by Vertex or its licensors. You may not reuse for commercial purposes without permission.</p>
@@ -927,3 +907,6 @@
   </script>
 </body>
 </html>
+
+
+Link-ul: https://hook.eu1.make.com/p8lmidr5fb78dtimryt43wwejixbzs9y
