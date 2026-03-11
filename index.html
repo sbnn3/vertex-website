@@ -581,7 +581,7 @@
     const calendlyBtn = document.getElementById("calendlyBtn");
     calendlyBtn.addEventListener("click", () => {
       const consent = getConsent();
-      const url = "https://calendly.com/sebastian-vertexautomation/30min";
+      const url = "https://calendly.com/sebastian-vertexautomation/15min";
       if (consent === "all" && window.Calendly && typeof window.Calendly.initPopupWidget === "function"){
         window.Calendly.initPopupWidget({ url });
         return;
