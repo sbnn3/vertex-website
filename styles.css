@@ -532,10 +532,13 @@ body.modal-open footer{filter: blur(6px)}
 .cookie-actions .btn{white-space:nowrap}
 
 /* WhatsApp button */
-.whatsapp-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.btn-whatsapp {
+  background: #25D366;
+  color: #ffffff;
+}
+
+.btn-whatsapp:hover {
+  background: #20b858;
 }
 
 .btn-whatsapp {
