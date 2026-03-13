@@ -538,6 +538,11 @@ body.modal-open footer{filter: blur(6px)}
   justify-content: center;
 }
 
+.btn-whatsapp {
+  background: #25D366;
+  color: white;
+}
+
 .whatsapp-fab {
   position: fixed;
   right: 20px;
