@@ -33,9 +33,9 @@ img{max-width:100%;height:auto;display:block}
 /* NAV */
 .nav{
   position:sticky; top:0; z-index:50;
-  background: #f5f7fb;
+  background:#f5f7fb;
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
+  border-bottom:1px solid var(--line);
 }
 .nav-inner{
   display:flex;
